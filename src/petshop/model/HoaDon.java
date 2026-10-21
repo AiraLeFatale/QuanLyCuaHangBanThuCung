@@ -12,6 +12,9 @@ import java.util.Objects;
  */
 public class HoaDon implements CoMaKhoa {
 
+    /** Quy tắc tích điểm: cứ 100.000 đ được 1 điểm. */
+    public static final int TIEN_MOI_DIEM = 100_000;
+
     private final String ma;
     private final LocalDateTime ngayLap;
     private final String maKhachHang;
@@ -90,6 +93,11 @@ public class HoaDon implements CoMaKhoa {
 
     public int getTongSoLuong() {
         return chiTiet.stream().mapToInt(ChiTietHoaDon::getSoLuong).sum();
+    }
+
+    /** Số điểm đã cộng cho khách khi lập hóa đơn (dùng khi hủy hóa đơn). */
+    public int getDiemCong() {
+        return (int) (getTongTien() / TIEN_MOI_DIEM);
     }
 
     @Override

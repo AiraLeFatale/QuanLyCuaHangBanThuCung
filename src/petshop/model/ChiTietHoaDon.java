@@ -3,22 +3,22 @@ package petshop.model;
 import java.util.Objects;
 
 /**
- * Một dòng trong hóa đơn. Thông tin thú cưng được "chụp lại" tại thời điểm bán
+ * Một dòng trong hóa đơn. Thông tin mặt hàng được "chụp lại" tại thời điểm bán
  * (mã, tên, loại, đơn giá) để hóa đơn cũ không bị thay đổi khi dữ liệu gốc đổi.
  */
 public class ChiTietHoaDon {
 
-    private final String maThuCung;
-    private final String tenThuCung;
-    private final String loaiThuCung;
+    private final String maHang;
+    private final String tenHang;
+    private final String loaiHang;
     private final int soLuong;
     private final double donGia;
 
-    public ChiTietHoaDon(String maThuCung, String tenThuCung, String loaiThuCung,
+    public ChiTietHoaDon(String maHang, String tenHang, String loaiHang,
                          int soLuong, double donGia) {
-        this.maThuCung = Objects.requireNonNull(maThuCung, "Mã thú cưng không được rỗng");
-        this.tenThuCung = tenThuCung == null ? "" : tenThuCung;
-        this.loaiThuCung = loaiThuCung == null ? "" : loaiThuCung;
+        this.maHang = Objects.requireNonNull(maHang, "Mã hàng không được rỗng");
+        this.tenHang = tenHang == null ? "" : tenHang;
+        this.loaiHang = loaiHang == null ? "" : loaiHang;
         if (soLuong <= 0) {
             throw new IllegalArgumentException("Số lượng phải lớn hơn 0");
         }
@@ -26,22 +26,25 @@ public class ChiTietHoaDon {
         this.donGia = Math.max(0, donGia);
     }
 
-    /** Tạo dòng hóa đơn từ thú cưng đang có trong kho. */
-    public static ChiTietHoaDon tuThuCung(ThuCung thuCung, int soLuong) {
-        return new ChiTietHoaDon(thuCung.getMa(), thuCung.getTen(),
-                thuCung.getLoai(), soLuong, thuCung.getGiaBan());
+    /**
+     * Tạo dòng hóa đơn từ bất kỳ mặt hàng nào (thú cưng, sản phẩm, dịch vụ).
+     * Tham số là interface nên dùng được đa hình.
+     */
+    public static ChiTietHoaDon tuMatHang(MatHang matHang, int soLuong) {
+        return new ChiTietHoaDon(matHang.getMa(), matHang.getTen(),
+                matHang.getLoai(), soLuong, matHang.getGiaBan());
     }
 
-    public String getMaThuCung() {
-        return maThuCung;
+    public String getMaHang() {
+        return maHang;
     }
 
-    public String getTenThuCung() {
-        return tenThuCung;
+    public String getTenHang() {
+        return tenHang;
     }
 
-    public String getLoaiThuCung() {
-        return loaiThuCung;
+    public String getLoaiHang() {
+        return loaiHang;
     }
 
     public int getSoLuong() {
@@ -56,8 +59,8 @@ public class ChiTietHoaDon {
         return donGia * soLuong;
     }
 
-    /** Bản sao với số lượng mới (dùng khi cộng dồn cùng một thú cưng trong giỏ). */
+    /** Bản sao với số lượng mới (dùng khi cộng dồn cùng một mặt hàng trong giỏ). */
     public ChiTietHoaDon voiSoLuong(int soLuongMoi) {
-        return new ChiTietHoaDon(maThuCung, tenThuCung, loaiThuCung, soLuongMoi, donGia);
+        return new ChiTietHoaDon(maHang, tenHang, loaiHang, soLuongMoi, donGia);
     }
 }

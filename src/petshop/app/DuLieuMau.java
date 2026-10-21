@@ -4,15 +4,21 @@ import java.time.LocalDate;
 
 import petshop.model.Cho;
 import petshop.model.Chim;
+import petshop.model.DichVuCatTia;
+import petshop.model.DichVuTam;
+import petshop.model.DichVuTiemPhong;
 import petshop.model.GioiTinh;
 import petshop.model.KhachHang;
 import petshop.model.Meo;
 import petshop.model.NhanVien;
+import petshop.model.PhuKien;
+import petshop.model.ThucAn;
+import petshop.model.Thuoc;
 import petshop.model.TrangThaiThuCung;
 import petshop.service.CuaHang;
 
 /**
- * Dữ liệu mẫu, chỉ nạp khi cả 4 tệp dữ liệu đang trống
+ * Dữ liệu mẫu, chỉ nạp khi tất cả các tệp dữ liệu đang trống
  * (lần chạy đầu tiên) để tiện demo và chấm bài.
  */
 public final class DuLieuMau {
@@ -22,6 +28,8 @@ public final class DuLieuMau {
 
     public static boolean napNeuTrong(CuaHang cuaHang) {
         boolean trong = cuaHang.getThuCung().soLuong() == 0
+                && cuaHang.getSanPham().soLuong() == 0
+                && cuaHang.getDichVu().soLuong() == 0
                 && cuaHang.getKhachHang().soLuong() == 0
                 && cuaHang.getNhanVien().soLuong() == 0
                 && cuaHang.getHoaDon().soLuong() == 0;
@@ -29,6 +37,8 @@ public final class DuLieuMau {
             return false;
         }
         napThuCung(cuaHang);
+        napSanPham(cuaHang);
+        napDichVu(cuaHang);
         napKhachHang(cuaHang);
         napNhanVien(cuaHang);
         cuaHang.luuTatCa();
@@ -57,6 +67,30 @@ public final class DuLieuMau {
                 TrangThaiThuCung.DA_BAN, "Vàng anh", false, "Vàng"));
         ds.them(new Meo("TC010", "Sushi", LocalDate.of(2025, 4, 18), 4_500_000, 1,
                 TrangThaiThuCung.CACH_LY, "Munchkin", false, true));
+    }
+
+    private static void napSanPham(CuaHang ch) {
+        var ds = ch.getSanPham();
+        ds.them(new ThucAn("SP001", "Hạt Royal Canin", 320_000, 20,
+                "Chó", 2.0, LocalDate.of(2027, 5, 30)));
+        ds.them(new ThucAn("SP002", "Pate Whiskas", 25_000, 40,
+                "Mèo", 0.4, LocalDate.of(2027, 1, 15)));
+        ds.them(new Thuoc("SP003", "Thuốc xổ giun", 120_000, 15,
+                "Tẩy giun cho chó mèo", LocalDate.of(2026, 12, 31), false));
+        ds.them(new Thuoc("SP004", "Vắc-xin phòng dại", 300_000, 10,
+                "Phòng bệnh dại", LocalDate.of(2027, 3, 1), true));
+        ds.them(new PhuKien("SP005", "Dây dắt da", 180_000, 12,
+                "Da bò", "Nâu"));
+        ds.them(new PhuKien("SP006", "Nhà mèo gỗ", 650_000, 5,
+                "Gỗ thông", "Trắng"));
+    }
+
+    private static void napDichVu(CuaHang ch) {
+        var ds = ch.getDichVu();
+        ds.them(new DichVuTam("DV001", "Tắm sấy chó nhỏ", 150_000, 45, "Nhỏ"));
+        ds.them(new DichVuTam("DV002", "Tắm sấy chó lớn", 250_000, 60, "Lớn"));
+        ds.them(new DichVuCatTia("DV003", "Cắt tỉa tạo kiểu", 200_000, 50, "Tạo kiểu"));
+        ds.them(new DichVuTiemPhong("DV004", "Tiêm phòng dại", 180_000, 15, "Vắc-xin dại"));
     }
 
     private static void napKhachHang(CuaHang ch) {

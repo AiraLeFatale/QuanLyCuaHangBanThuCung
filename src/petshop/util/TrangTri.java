@@ -18,4 +18,12 @@ public final class TrangTri {
     public static String phanTram(double tiLe) {
         return Math.round(tiLe * 100) + "%";
     }
+
+    /** Số gọn: 1.5 -> "1.5", 2.0 -> "2". */
+    public static String so(double giaTri) {
+        if (giaTri == Math.rint(giaTri)) {
+            return String.valueOf((long) giaTri);
+        }
+        return String.format(java.util.Locale.ROOT, "%.1f", giaTri);
+    }
 }

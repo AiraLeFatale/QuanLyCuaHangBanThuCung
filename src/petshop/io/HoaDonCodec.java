@@ -22,9 +22,9 @@ public class HoaDonCodec implements TextCodec<HoaDon> {
             if (chiTiet.length() > 0) {
                 chiTiet.append(';');
             }
-            chiTiet.append(Esc.ma(ct.getMaThuCung())).append('~')
-                    .append(Esc.ma(ct.getTenThuCung())).append('~')
-                    .append(Esc.ma(ct.getLoaiThuCung())).append('~')
+            chiTiet.append(Esc.ma(ct.getMaHang())).append('~')
+                    .append(Esc.ma(ct.getTenHang())).append('~')
+                    .append(Esc.ma(ct.getLoaiHang())).append('~')
                     .append(ct.getSoLuong()).append('~')
                     .append(Math.round(ct.getDonGia()));
         }

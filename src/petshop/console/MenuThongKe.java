@@ -30,7 +30,7 @@ public class MenuThongKe {
         while (true) {
             NhapXuat.tieuDe("Thống kê - báo cáo");
             System.out.println("  1. Tổng quan cửa hàng");
-            System.out.println("  2. Thú cưng bán chạy");
+            System.out.println("  2. Hàng bán chạy");
             System.out.println("  3. Doanh thu theo loại");
             System.out.println("  4. Hóa đơn gần đây");
             System.out.println("  5. Xuất báo cáo ra tệp .txt");
@@ -56,15 +56,18 @@ public class MenuThongKe {
         System.out.println("  Số hóa đơn       : " + hoaDon.soLuong());
         System.out.println("  Doanh thu        : " + Tien.dinhDang(hoaDon.tongDoanhThu()));
         System.out.println("  Tiền giảm giá    : " + Tien.dinhDang(hoaDon.tongTienGiam()));
-        System.out.println("  Thú cưng đã bán  : " + hoaDon.tongSoThuCungDaBan());
+        System.out.println("  Mặt hàng đã bán  : " + hoaDon.tongSoMatHangDaBan());
         System.out.println("  Khách hàng       : " + cuaHang.getKhachHang().soLuong());
         System.out.println("  Nhân viên        : " + cuaHang.getNhanVien().soLuong());
-        System.out.println("  Giá trị tồn kho  : " + Tien.dinhDang(cuaHang.getThuCung().tongGiaTriTonKho()));
+        System.out.println("  Thú cưng / SP/DV : " + cuaHang.getThuCung().soLuong()
+                + " / " + cuaHang.getSanPham().soLuong()
+                + " / " + cuaHang.getDichVu().soLuong());
+        System.out.println("  Giá trị tồn kho  : " + Tien.dinhDang(cuaHang.tongGiaTriTonKho()));
         NhapXuat.tamDung();
     }
 
     private void banChay() {
-        NhapXuat.muc("Thú cưng bán chạy");
+        NhapXuat.muc("Hàng bán chạy");
         java.util.List<Map.Entry<String, Integer>> ds = cuaHang.getHoaDon().topBanChay(10);
         if (ds.isEmpty()) {
             System.out.println("  (chưa có hóa đơn nào)");
@@ -74,13 +77,13 @@ public class MenuThongKe {
             for (Map.Entry<String, Integer> e : ds) {
                 dong.add(new String[]{String.valueOf(thuTu++), e.getKey(), String.valueOf(e.getValue())});
             }
-            NhapXuat.inBang(new String[]{"#", "Thú cưng", "Số lượng bán"}, dong, new int[]{3, 34, 12});
+            NhapXuat.inBang(new String[]{"#", "Mặt hàng", "Số lượng bán"}, dong, new int[]{3, 34, 12});
         }
         NhapXuat.tamDung();
     }
 
     private void doanhThuTheoLoai() {
-        NhapXuat.muc("Doanh thu theo loại thú cưng");
+        NhapXuat.muc("Doanh thu theo loại hàng");
         Map<String, Double> ds = cuaHang.getHoaDon().doanhThuTheoLoai();
         if (ds.isEmpty()) {
             System.out.println("  (chưa có hóa đơn nào)");
@@ -135,8 +138,8 @@ public class MenuThongKe {
                     hoaDon.soLuong(),
                     hoaDon.tongDoanhThu(),
                     hoaDon.tongTienGiam(),
-                    hoaDon.tongSoThuCungDaBan(),
-                    cuaHang.getThuCung().tongGiaTriTonKho(),
+                    hoaDon.tongSoMatHangDaBan(),
+                    cuaHang.tongGiaTriTonKho(),
                     hoaDon.doanhThuTheoLoai(),
                     hoaDon.topBanChay(10));
             Files.writeString(tep, noiDung, StandardCharsets.UTF_8);

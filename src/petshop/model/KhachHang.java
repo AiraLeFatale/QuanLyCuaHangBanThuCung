@@ -33,6 +33,13 @@ public class KhachHang extends Nguoi {
         }
     }
 
+    /** Trừ điểm khi hủy hóa đơn (không để âm). */
+    public void truDiem(int diem) {
+        if (diem > 0) {
+            this.diemTichLuy = Math.max(0, this.diemTichLuy - diem);
+        }
+    }
+
     public HangKhachHang getHang() {
         return HangKhachHang.tuDiem(diemTichLuy);
     }

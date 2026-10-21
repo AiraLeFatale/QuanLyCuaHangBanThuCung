@@ -43,16 +43,16 @@ public class QuanLyHoaDon extends QuanLyCoBan<HoaDon> {
         return danhSach.stream().mapToDouble(HoaDon::getTienGiam).sum();
     }
 
-    public int tongSoThuCungDaBan() {
+    public int tongSoMatHangDaBan() {
         return danhSach.stream().mapToInt(HoaDon::getTongSoLuong).sum();
     }
 
-    /** Tên thú cưng bán chạy nhất, sắp xếp giảm dần theo số lượng bán. */
+    /** Tên mặt hàng bán chạy nhất, sắp xếp giảm dần theo số lượng bán. */
     public List<Map.Entry<String, Integer>> topBanChay(int soLuongCanLay) {
         Map<String, Integer> dem = new LinkedHashMap<>();
         for (HoaDon hd : danhSach) {
             for (ChiTietHoaDon ct : hd.getChiTiet()) {
-                dem.merge(ct.getTenThuCung() + " (" + ct.getLoaiThuCung() + ")",
+                dem.merge(ct.getTenHang() + " (" + ct.getLoaiHang() + ")",
                         ct.getSoLuong(), Integer::sum);
             }
         }
@@ -61,12 +61,12 @@ public class QuanLyHoaDon extends QuanLyCoBan<HoaDon> {
         return ketQua.size() > soLuongCanLay ? ketQua.subList(0, soLuongCanLay) : ketQua;
     }
 
-    /** Doanh thu (sau giảm giá) theo từng loại thú cưng. */
+    /** Doanh thu (sau giảm giá) theo từng loại hàng. */
     public Map<String, Double> doanhThuTheoLoai() {
         Map<String, Double> ketQua = new LinkedHashMap<>();
         for (HoaDon hd : danhSach) {
             for (ChiTietHoaDon ct : hd.getChiTiet()) {
-                ketQua.merge(ct.getLoaiThuCung(), ct.getThanhTien(), Double::sum);
+                ketQua.merge(ct.getLoaiHang(), ct.getThanhTien(), Double::sum);
             }
         }
         return ketQua;

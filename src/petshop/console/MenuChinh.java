@@ -11,17 +11,23 @@ public class MenuChinh {
 
     private final CuaHang cuaHang;
     private final MenuThuCung menuThuCung;
+    private final MenuSanPham menuSanPham;
+    private final MenuDichVu menuDichVu;
     private final MenuKhachHang menuKhachHang;
     private final MenuNhanVien menuNhanVien;
     private final MenuBanHang menuBanHang;
+    private final MenuHoaDon menuHoaDon;
     private final MenuThongKe menuThongKe;
 
     public MenuChinh(CuaHang cuaHang) {
         this.cuaHang = cuaHang;
         this.menuThuCung = new MenuThuCung(cuaHang);
+        this.menuSanPham = new MenuSanPham(cuaHang);
+        this.menuDichVu = new MenuDichVu(cuaHang);
         this.menuKhachHang = new MenuKhachHang(cuaHang);
         this.menuNhanVien = new MenuNhanVien(cuaHang);
         this.menuBanHang = new MenuBanHang(cuaHang);
+        this.menuHoaDon = new MenuHoaDon(cuaHang, menuBanHang);
         this.menuThongKe = new MenuThongKe(cuaHang);
     }
 
@@ -30,15 +36,18 @@ public class MenuChinh {
         try {
             while (!thoat) {
                 hienThiMenu();
-                int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 6);
+                int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 9);
                 try {
                     switch (chon) {
                         case 1 -> menuThuCung.chay();
-                        case 2 -> menuKhachHang.chay();
-                        case 3 -> menuNhanVien.chay();
-                        case 4 -> menuBanHang.chay();
-                        case 5 -> menuThongKe.chay();
-                        case 6 -> luuDuLieu();
+                        case 2 -> menuSanPham.chay();
+                        case 3 -> menuDichVu.chay();
+                        case 4 -> menuKhachHang.chay();
+                        case 5 -> menuNhanVien.chay();
+                        case 6 -> menuBanHang.chay();
+                        case 7 -> menuHoaDon.chay();
+                        case 8 -> menuThongKe.chay();
+                        case 9 -> luuDuLieu();
                         default -> thoat = true;
                     }
                 } catch (AppException ex) {
@@ -63,17 +72,22 @@ public class MenuChinh {
         NhapXuat.tieuDe("Cửa hàng thú cưng Petshop");
         System.out.println("  Hôm nay: " + TrangTri.ngay(LocalDate.now())
                 + "   |   Thú cưng: " + cuaHang.getThuCung().soLuong()
-                + "   Khách hàng: " + cuaHang.getKhachHang().soLuong()
+                + "   Sản phẩm: " + cuaHang.getSanPham().soLuong()
+                + "   Dịch vụ: " + cuaHang.getDichVu().soLuong());
+        System.out.println("  Khách hàng: " + cuaHang.getKhachHang().soLuong()
                 + "   Nhân viên: " + cuaHang.getNhanVien().soLuong()
                 + "   Hóa đơn: " + cuaHang.getHoaDon().soLuong());
         System.out.println();
         System.out.println("  MENU CHÍNH");
         System.out.println("    1. Quản lý thú cưng");
-        System.out.println("    2. Quản lý khách hàng");
-        System.out.println("    3. Quản lý nhân viên");
-        System.out.println("    4. Bán hàng");
-        System.out.println("    5. Thống kê - báo cáo");
-        System.out.println("    6. Lưu dữ liệu");
+        System.out.println("    2. Quản lý sản phẩm");
+        System.out.println("    3. Quản lý dịch vụ");
+        System.out.println("    4. Quản lý khách hàng");
+        System.out.println("    5. Quản lý nhân viên");
+        System.out.println("    6. Bán hàng");
+        System.out.println("    7. Quản lý hóa đơn");
+        System.out.println("    8. Thống kê - báo cáo");
+        System.out.println("    9. Lưu dữ liệu");
         System.out.println("    0. Thoát");
     }
 

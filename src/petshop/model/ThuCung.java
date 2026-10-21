@@ -10,7 +10,10 @@ import petshop.exception.NghiepVuException;
  * Lớp trừu tượng cho thú cưng.
  * Các lớp con (Cho, Meo, Chim) tự quyết định đặc điểm riêng, chi phí chăm sóc...
  */
-public abstract class ThuCung implements CoMaKhoa {
+public abstract class ThuCung implements MatHang {
+
+    /** Thuộc tính static: đếm số đối tượng thú cưng đã được tạo trong phiên chạy. */
+    private static int soLuongDaTao = 0;
 
     private final String ma;
     private String ten;
@@ -27,6 +30,12 @@ public abstract class ThuCung implements CoMaKhoa {
         this.giaBan = Math.max(0, giaBan);
         this.soLuong = Math.max(0, soLuong);
         this.trangThai = trangThai == null ? TrangThaiThuCung.CON_BAN : trangThai;
+        soLuongDaTao++;
+    }
+
+    /** Phương thức static: số đối tượng thú cưng đã tạo (kể cả nạp từ tệp). */
+    public static int getSoLuongDaTao() {
+        return soLuongDaTao;
     }
 
     @Override
@@ -59,6 +68,11 @@ public abstract class ThuCung implements CoMaKhoa {
     }
 
     public int getSoLuong() {
+        return soLuong;
+    }
+
+    @Override
+    public int getSoLuongTon() {
         return soLuong;
     }
 

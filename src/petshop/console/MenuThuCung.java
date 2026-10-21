@@ -30,6 +30,8 @@ public class MenuThuCung {
     public void chay() {
         while (true) {
             NhapXuat.tieuDe("Quản lý thú cưng");
+            System.out.println("  (Thuộc tính static) Số đối tượng thú cưng đã tạo: "
+                    + ThuCung.getSoLuongDaTao());
             System.out.println("  1. Xem danh sách");
             System.out.println("  2. Thêm thú cưng");
             System.out.println("  3. Cập nhật thú cưng");

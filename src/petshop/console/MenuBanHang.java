@@ -6,20 +6,26 @@ import java.util.Optional;
 
 import petshop.exception.AppException;
 import petshop.model.ChiTietHoaDon;
+import petshop.model.DichVu;
 import petshop.model.HoaDon;
 import petshop.model.KhachHang;
+import petshop.model.MatHang;
 import petshop.model.NhanVien;
+import petshop.model.SanPham;
 import petshop.model.ThuCung;
 import petshop.service.CuaHang;
 import petshop.util.HoaDonText;
 import petshop.util.Tien;
 import petshop.util.TrangTri;
 
-/** Menu bán hàng trên console: chọn khách, nhân viên, thêm thú cưng vào giỏ rồi thanh toán. */
+/**
+ * Menu bán hàng trên console: chọn khách, nhân viên, thêm thú cưng / sản phẩm / dịch vụ
+ * vào giỏ rồi thanh toán.
+ */
 public class MenuBanHang {
 
-    private static final String[] COT_GIO = {"Mã", "Tên thú cưng", "Loại", "Đơn giá", "SL", "Thành tiền"};
-    private static final int[] RONG_GIO = {6, 20, 6, 13, 4, 14};
+    private static final String[] COT_GIO = {"Mã", "Tên mặt hàng", "Loại", "Đơn giá", "SL", "Thành tiền"};
+    private static final int[] RONG_GIO = {6, 22, 12, 13, 4, 14};
 
     private final CuaHang cuaHang;
 
@@ -35,8 +41,10 @@ public class MenuBanHang {
             NhapXuat.tamDung();
             return;
         }
-        if (cuaHang.getThuCung().conBanDuoc().isEmpty()) {
-            NhapXuat.loi("Hiện không có thú cưng nào đang bán");
+        if (cuaHang.getThuCung().conBanDuoc().isEmpty()
+                && cuaHang.getSanPham().conBanDuoc().isEmpty()
+                && cuaHang.getDichVu().soLuong() == 0) {
+            NhapXuat.loi("Hiện không có mặt hàng nào đang bán");
             NhapXuat.tamDung();
             return;
         }
@@ -60,34 +68,43 @@ public class MenuBanHang {
         }
 
         List<ChiTietHoaDon> gioHang = new ArrayList<>();
-        System.out.println("\nNhập mã thú cưng để thêm vào giỏ, bỏ trống để kết thúc.");
+        System.out.println("\nNhập mã mặt hàng (TC = thú cưng, SP = sản phẩm, DV = dịch vụ),"
+                + " bỏ trống để kết thúc.");
         while (true) {
-            xemThuCungConBan();
-            String maThuCung = NhapXuat.doc("Mã thú cưng (bỏ trống để kết thúc): ");
-            if (maThuCung.isEmpty()) {
+            xemMatHang();
+            String maHang = NhapXuat.doc("Mã mặt hàng (bỏ trống để kết thúc): ");
+            if (maHang.isEmpty()) {
                 break;
             }
-            Optional<ThuCung> tim = cuaHang.getThuCung().tim(maThuCung);
+            Optional<MatHang> tim = cuaHang.timMatHang(maHang);
             if (tim.isEmpty()) {
-                NhapXuat.loi("Không tìm thấy thú cưng " + maThuCung);
+                NhapXuat.loi("Không tìm thấy mặt hàng " + maHang);
                 continue;
             }
-            ThuCung thuCung = tim.get();
-            if (!thuCung.conBanDuoc()) {
-                NhapXuat.loi(thuCung.getTen() + " hiện không bán được (trạng thái: "
-                        + thuCung.getTrangThai().getNhan() + ")");
+            MatHang matHang = tim.get();
+            if (!matHang.conBanDuoc()) {
+                NhapXuat.loi(matHang.getTen() + " hiện không bán được");
                 continue;
             }
-            int daCoTrongGio = soLuongTrongGio(gioHang, thuCung.getMa());
-            int conLai = thuCung.getSoLuong() - daCoTrongGio;
-            if (conLai <= 0) {
-                NhapXuat.loi("Đã lấy hết số lượng còn lại của " + thuCung.getTen());
-                continue;
+            int daCoTrongGio = soLuongTrongGio(gioHang, matHang.getMa());
+            int toiDa;
+            String goiY;
+            if (matHang.quanLyTonKho()) {
+                toiDa = matHang.getSoLuongTon() - daCoTrongGio;
+                if (toiDa <= 0) {
+                    NhapXuat.loi("Đã lấy hết số lượng còn lại của " + matHang.getTen());
+                    continue;
+                }
+                goiY = "  Số lượng (còn " + toiDa + "): ";
+            } else {
+                toiDa = 99;
+                goiY = "  Số lượng: ";
             }
-            int soLuong = NhapXuat.docSoNguyen("  Số lượng (còn " + conLai + "): ", 1, conLai);
-            themVaoGio(gioHang, thuCung, soLuong);
-            NhapXuat.thongBao("Đã thêm " + soLuong + " x " + thuCung.getTen()
-                    + " (" + Tien.dinhDang(thuCung.getGiaBan()) + ")");
+            int soLuong = NhapXuat.docSoNguyen(goiY, 1, toiDa);
+            themVaoGio(gioHang, matHang, soLuong);
+            NhapXuat.thongBao("Đã thêm " + soLuong + " x " + matHang.getTen()
+                    + " (" + Tien.dinhDang(matHang.getGiaBan()) + " / "
+                    + (matHang.quanLyTonKho() ? "cái" : "lần") + ")");
         }
 
         if (gioHang.isEmpty()) {
@@ -140,20 +157,38 @@ public class MenuBanHang {
         NhapXuat.inBang(new String[]{"Mã", "Họ tên", "Chức vụ"}, dong, new int[]{6, 22, 14});
     }
 
-    private void xemThuCungConBan() {
+    private void xemMatHang() {
         NhapXuat.muc("Thú cưng đang bán");
-        List<String[]> dong = new ArrayList<>();
+        List<String[]> thuCung = new ArrayList<>();
         for (ThuCung t : cuaHang.getThuCung().conBanDuoc()) {
-            dong.add(new String[]{
-                    t.getMa(),
-                    t.getTen(),
-                    t.getLoai(),
-                    Tien.dinhDang(t.getGiaBan()),
-                    String.valueOf(t.getSoLuong())
+            thuCung.add(new String[]{
+                    t.getMa(), t.getTen(), t.getLoai(),
+                    Tien.dinhDang(t.getGiaBan()), String.valueOf(t.getSoLuong())
             });
         }
-        NhapXuat.inBang(new String[]{"Mã", "Tên", "Loại", "Giá bán", "Còn"}, dong,
+        NhapXuat.inBang(new String[]{"Mã", "Tên", "Loại", "Giá bán", "Còn"}, thuCung,
                 new int[]{6, 18, 6, 13, 4});
+
+        NhapXuat.muc("Sản phẩm đang bán");
+        List<String[]> sanPham = new ArrayList<>();
+        for (SanPham sp : cuaHang.getSanPham().conBanDuoc()) {
+            sanPham.add(new String[]{
+                    sp.getMa(), sp.getTen(), sp.getLoai(),
+                    Tien.dinhDang(sp.getGiaBan()), String.valueOf(sp.getSoLuong())
+            });
+        }
+        NhapXuat.inBang(new String[]{"Mã", "Tên", "Loại", "Giá bán", "Còn"}, sanPham,
+                new int[]{6, 18, 10, 13, 4});
+
+        NhapXuat.muc("Dịch vụ");
+        List<String[]> dichVu = new ArrayList<>();
+        for (DichVu dv : cuaHang.getDichVu().tatCa()) {
+            dichVu.add(new String[]{
+                    dv.getMa(), dv.getTen(), dv.getLoai(), Tien.dinhDang(dv.getGiaBan())
+            });
+        }
+        NhapXuat.inBang(new String[]{"Mã", "Tên", "Loại", "Giá"}, dichVu,
+                new int[]{6, 22, 12, 13});
     }
 
     private void xemGioHang(List<ChiTietHoaDon> gioHang, KhachHang khach) {
@@ -163,9 +198,9 @@ public class MenuBanHang {
         for (ChiTietHoaDon ct : gioHang) {
             tamTinh += ct.getThanhTien();
             dong.add(new String[]{
-                    ct.getMaThuCung(),
-                    ct.getTenThuCung(),
-                    ct.getLoaiThuCung(),
+                    ct.getMaHang(),
+                    ct.getTenHang(),
+                    ct.getLoaiHang(),
                     Tien.dinhDang(ct.getDonGia()),
                     String.valueOf(ct.getSoLuong()),
                     Tien.dinhDang(ct.getThanhTien())
@@ -181,25 +216,26 @@ public class MenuBanHang {
         System.out.println("  Tạm tính   : " + Tien.dinhDang(tamTinh));
         System.out.println("  Giảm giá   : -" + Tien.dinhDang(giam));
         System.out.println("  TỔNG CỘNG  : " + Tien.dinhDang(tamTinh - giam));
+        System.out.println("  Điểm cộng  : +" + (int) ((tamTinh - giam) / HoaDon.TIEN_MOI_DIEM));
     }
 
-    private int soLuongTrongGio(List<ChiTietHoaDon> gioHang, String maThuCung) {
+    private int soLuongTrongGio(List<ChiTietHoaDon> gioHang, String maHang) {
         for (ChiTietHoaDon ct : gioHang) {
-            if (ct.getMaThuCung().equalsIgnoreCase(maThuCung)) {
+            if (ct.getMaHang().equalsIgnoreCase(maHang)) {
                 return ct.getSoLuong();
             }
         }
         return 0;
     }
 
-    private void themVaoGio(List<ChiTietHoaDon> gioHang, ThuCung thuCung, int soLuong) {
+    private void themVaoGio(List<ChiTietHoaDon> gioHang, MatHang matHang, int soLuong) {
         for (int i = 0; i < gioHang.size(); i++) {
             ChiTietHoaDon ct = gioHang.get(i);
-            if (ct.getMaThuCung().equalsIgnoreCase(thuCung.getMa())) {
+            if (ct.getMaHang().equalsIgnoreCase(matHang.getMa())) {
                 gioHang.set(i, ct.voiSoLuong(ct.getSoLuong() + soLuong));
                 return;
             }
         }
-        gioHang.add(ChiTietHoaDon.tuThuCung(thuCung, soLuong));
+        gioHang.add(ChiTietHoaDon.tuMatHang(matHang, soLuong));
     }
 }

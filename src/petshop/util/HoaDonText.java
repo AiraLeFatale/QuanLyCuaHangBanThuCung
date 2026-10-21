@@ -25,10 +25,10 @@ public final class HoaDonText {
         sb.append("Nhân viên  : ").append(hd.getTenNhanVien())
                 .append(" (").append(hd.getMaNhanVien()).append(")\n");
         sb.append("------------------------------------------\n");
-        sb.append(String.format("%-26s %5s %14s%n", "Thú cưng", "SL", "Thành tiền"));
+        sb.append(String.format("%-32s %5s %14s%n", "Mặt hàng", "SL", "Thành tiền"));
         for (ChiTietHoaDon ct : hd.getChiTiet()) {
-            sb.append(String.format("%-26s %5d %14s%n",
-                    cat(ct.getTenThuCung() + " (" + ct.getLoaiThuCung() + ")", 26),
+            sb.append(String.format("%-32s %5d %14s%n",
+                    cat(ct.getTenHang() + " (" + ct.getLoaiHang() + ")", 32),
                     ct.getSoLuong(),
                     Tien.dinhDang(ct.getThanhTien())));
         }
@@ -53,7 +53,7 @@ public final class HoaDonText {
         sb.append("Số hóa đơn        : ").append(soHoaDon).append('\n');
         sb.append("Doanh thu         : ").append(Tien.dinhDang(doanhThu)).append('\n');
         sb.append("Tiền giảm giá     : ").append(Tien.dinhDang(tienGiam)).append('\n');
-        sb.append("Thú cưng đã bán   : ").append(soThuCung).append('\n');
+        sb.append("Mặt hàng đã bán  : ").append(soThuCung).append('\n');
         sb.append("Giá trị tồn kho   : ").append(Tien.dinhDang(giaTriTonKho)).append('\n');
         sb.append("==========================================\n");
         sb.append("Doanh thu theo loại:\n");
@@ -61,14 +61,14 @@ public final class HoaDonText {
             sb.append("  - ").append(e.getKey()).append(": ").append(Tien.dinhDang(e.getValue())).append('\n');
         }
         sb.append("------------------------------------------\n");
-        sb.append("Thú cưng bán chạy:\n");
+        sb.append("Hàng bán chạy:\n");
         if (banChay.isEmpty()) {
             sb.append("  (chưa có dữ liệu)\n");
         } else {
             int thuTu = 1;
             for (Map.Entry<String, Integer> e : banChay) {
                 sb.append("  ").append(thuTu++).append(". ").append(e.getKey())
-                        .append(": ").append(e.getValue()).append(" con\n");
+                        .append(": ").append(e.getValue()).append(" lượt\n");
             }
         }
         return sb.toString();
