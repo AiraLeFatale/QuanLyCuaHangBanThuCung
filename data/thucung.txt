@@ -1,0 +1,7 @@
+CHO|TC001|Lulu|6|5000000|Duc|false|Poodle|3.5
+CHO|TC002|Bong|14|8500000|Cai|false|Golden Retriever|18.2
+MEO|TC003|Gugu|5|3500000|Cai|true|Xam xanh|false
+MEO|TC004|Tom|10|6000000|Duc|false|Ba Tu|true
+CHIM|TC005|Vet|8|1200000|Duc|false|Xanh|true
+CHIM|TC006|Yen|5|800000|Cai|false|Vang|false
+CHIM|TC007|Speaker|3|10000000|Duc|false|Den|true

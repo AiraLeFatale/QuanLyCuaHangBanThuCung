@@ -1,0 +1,3 @@
+NV001|Pham Quoc Dat|0933111222|Quan 1, TP.HCM|Quan ly|15000000
+NV002|Vo Thi Em|0944333444|Quan 3, TP.HCM|Thu ngan|8000000
+NV003|Do Van Phuc|0955666777|Quan 10, TP.HCM|Cham soc thu cung|9000000

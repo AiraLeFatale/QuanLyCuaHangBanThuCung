@@ -1,0 +1,5 @@
+THUCAN|SP001|Hat Royal Canin 2kg|250000|20|Cho|2.0|31/12/2027
+THUCAN|SP002|Pate Whiskas 85g|18000|100|Meo|0.085|30/06/2027
+THUOC|SP003|Thuoc xit ve ray|120000|9|Tri ve ray bo chet|01/08/2027
+PHUKIEN|SP004|Vong co da|90000|30|Da|Do
+PHUKIEN|SP005|Long nhot meo|450000|8|Nhua|Xanh la
