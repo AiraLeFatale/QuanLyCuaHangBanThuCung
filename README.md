@@ -48,7 +48,7 @@ Hoặc biên dịch thủ công:
 mkdir out
 dir /s /b src\*.java > out\sources.txt
 javac -encoding UTF-8 -d out @out\sources.txt
-java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -cp out petshop.app.Main
+java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -cp out main.Main
 ```
 
 Kiểm tra nhanh phần nghiệp vụ (không cần nhập liệu):
@@ -68,7 +68,7 @@ và dòng `KIỂM TRA THÀNH CÔNG`.
 
 ### Mở bằng IDE
 
-- **IntelliJ IDEA**: `File > Open` → chọn thư mục dự án → đánh dấu `src` là *Sources Root* → chạy lớp `petshop.app.Main`.
+- **IntelliJ IDEA**: `File > Open` → chọn thư mục dự án → đánh dấu `src` là *Sources Root* → chạy lớp `main.Main`.
 - **Eclipse**: `File > New > Java Project` → bỏ chọn *Use default location* và trỏ tới thư mục này → chạy `Main`.
 - **VS Code**: cài *Extension Pack for Java*, mở thư mục dự án rồi bấm Run ở `Main.java`.
 
@@ -106,17 +106,17 @@ hoặc `k` (không). Nhấn `Ctrl+C` để thoát ngay, `Ctrl+Z` rồi `Enter` �
 QuanLyCuaHangBanThuCung/
 ├── run.bat                     # biên dịch + chạy
 ├── README.md
-├── src/petshop/
-│   ├── app/                    # Main, dữ liệu mẫu, kiểm tra nhanh (--check)
-│   ├── console/                # menu console: MenuChinh, MenuThuCung, MenuSanPham,
-│   │                           #   MenuDichVu, MenuHoaDon, MenuBanHang, NhapXuat...
-│   ├── model/                  # thực thể: Nguoi, KhachHang, NhanVien, ThuCung, Cho, Meo, Chim,
+├── src/
+│   ├── entity/                 # thực thể (17 lớp): Nguoi, KhachHang, NhanVien, ThuCung, Cho, Meo, Chim,
 │   │                           #   SanPham, ThucAn, Thuoc, PhuKien, DichVu, DichVuTam,
 │   │                           #   DichVuCatTia, DichVuTiemPhong, HoaDon, ChiTietHoaDon
-│   ├── service/                # nghiệp vụ: QuanLy<T>, QuanLyCoBan<T>, 6 lớp quản lý, CuaHang
-│   ├── io/                     # lưu tệp: TextCodec, TextFileRepository, 6 *Codec, Esc
-│   ├── util/                   # Validator, Tien, TrangTri, HoaDonText
-│   └── exception/              # AppException và các lớp con
+│   │                           #   + 3 enum: GioiTinh, HangKhachHang, TrangThaiThuCung
+│   ├── inter/                  # interface: CoMaKhoa, MatHang, QuanLy<T>
+│   ├── manager/                # nghiệp vụ: QuanLyCoBan<T>, 6 lớp quản lý, CuaHang
+│   ├── menu/                   # màn hình console: MenuChinh + 8 menu con, NhapXuat
+│   ├── util/                   # DocGhiFile (đọc/ghi .txt), AppException, Validator, Tien,
+│   │                           #   TrangTri, HoaDonText
+│   └── main/                   # Main, dữ liệu mẫu, kiểm tra nhanh (--check)
 ├── data/                       # sinh ra khi chạy: thucung, sanpham, dichvu,
 │                               #   khachhang, nhanvien, hoadon (.txt)
 └── reports/                    # báo cáo thống kê xuất ra (.txt)
@@ -155,7 +155,7 @@ QuanLy<T> (interface) ─── QuanLyCoBan<T> (abstract)
                               ▲        ▲         ▲        ▲         ▲
                      QuanLyThuCung QuanLySanPham QuanLyDichVu QuanLyKhachHang QuanLyNhanVien (+ QuanLyHoaDon)
 
-TextCodec<T> (interface) ── TextFileRepository<T> ── 6 lớp *Codec
+DocGhiFile.Codec<T> (interface) ── DocGhiFile.Kho<T> ── 6 lớp DocGhiFile.*Codec
 CuaHang ── điều phối 6 danh mục + nghiệp vụ bán hàng / hủy hóa đơn
 MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng, nhân viên,
              bán hàng, hóa đơn, thống kê)
@@ -163,7 +163,7 @@ MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng
 
 ### 6.2. Các kỹ thuật OOP được sử dụng
 
-- **17 lớp đối tượng** trong gói `model`:
+- **17 lớp đối tượng** trong gói `entity`:
   `Nguoi`, `KhachHang`, `NhanVien`, `ThuCung`, `Cho`, `Meo`, `Chim`,
   `SanPham`, `ThucAn`, `Thuoc`, `PhuKien`, `DichVu`, `DichVuTam`, `DichVuCatTia`,
   `DichVuTiemPhong`, `HoaDon`, `ChiTietHoaDon` (chưa kể 3 enum và 4 interface).
@@ -177,7 +177,7 @@ MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng
   `MatHang` / `ThuCung`; giỏ hàng và hóa đơn chỉ làm việc với interface `MatHang` nên bán được
   lẫn lộn thú cưng, sản phẩm và dịch vụ.
 - **Interface & generic**: `MatHang` (mặt hàng bán được), `QuanLy<T>`, `QuanLyCoBan<T extends CoMaKhoa>`,
-  `TextCodec<T>`, `TextFileRepository<T>` dùng lại cho cả 6 loại dữ liệu.
+  `DocGhiFile.Codec<T>`, `DocGhiFile.Kho<T>` dùng lại cho cả 6 loại dữ liệu.
 - **Thuộc tính static + phương thức static**:
   - `ThuCung.soLuongDaTao` + `ThuCung.getSoLuongDaTao()` đếm số đối tượng thú cưng đã tạo trong phiên
     (hiển thị ở đầu menu Quản lý thú cưng).
@@ -185,10 +185,10 @@ MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng
   - `HoaDon.TIEN_MOI_DIEM` (hằng số dùng chung cho quy tắc tích điểm).
 - **Lớp danh sách đối tượng**: `QuanLyCoBan<T>` bọc `List<T>` và cung cấp thêm/xóa/cập nhật/tìm/lưu;
   các lớp `QuanLyThuCung`, `QuanLySanPham`, `QuanLyDichVu`... thêm nghiệp vụ lọc và sắp xếp.
-- **Đọc/ghi tệp text**: `TextFileRepository<T>` + các `*Codec`, ghi qua tệp tạm rồi đổi tên.
+- **Đọc/ghi tệp text**: `DocGhiFile.Kho<T>` + các `*Codec`, ghi qua tệp tạm rồi đổi tên.
 - **Đóng gói**: thuộc tính `private`, thay đổi qua phương thức có kiểm tra (`truKho`, `congDiem`, `truDiem`...).
-- **Xử lý ngoại lệ**: `AppException` → `DuLieuKhongHopLeException`, `KhongTimThayException`,
-  `NghiepVuException`; tầng console bắt và in thông điệp tiếng Việt thay vì để chương trình dừng.
+- **Xử lý ngoại lệ**: `AppException` → `AppException.DuLieuKhongHopLe`, `AppException.KhongTimThay`,
+  `AppException.NghiepVu`; tầng console bắt và in thông điệp tiếng Việt thay vì để chương trình dừng.
 - **Collection & Stream API**: `List`, `Map`, `Comparator`, lọc/tìm kiếm/thống kê bằng stream.
 - **Bất biến**: `HoaDon` và `ChiTietHoaDon` không đổi sau khi tạo; hóa đơn lưu lại thông tin
   tại thời điểm bán nên dữ liệu gốc thay đổi vẫn không làm sai hóa đơn cũ.
@@ -199,7 +199,7 @@ MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng
 | Yêu cầu | Đáp ứng |
 | --- | --- |
 | Xem, thêm, sửa, xóa, tìm kiếm | Có đủ ở 5 danh mục (thú cưng, sản phẩm, dịch vụ, khách hàng, nhân viên) + hóa đơn (xem/tạo/sửa/hủy/tìm) |
-| Ít nhất 15 lớp đối tượng | 17 lớp trong gói `model` |
+| Ít nhất 15 lớp đối tượng | 17 lớp trong gói `entity` |
 | Có constructor | Tất cả các lớp |
 | Kế thừa hợp lý | 3 nhánh kế thừa: `Nguoi`, `ThuCung`, `SanPham`, `DichVu` |
 | Đa hình | Gọi phương thức qua `MatHang` / `ThuCung`; giỏ hàng đa loại |
@@ -207,7 +207,7 @@ MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng
 | Đọc/ghi file text | 6 tệp `.txt` UTF-8 trong `data/` |
 | Thuộc tính static, phương thức static | `ThuCung.soLuongDaTao` / `getSoLuongDaTao()`, `SanPham.soLuongDaTao`, `HoaDon.TIEN_MOI_DIEM` |
 | Lớp trừu tượng, hàm trừu tượng | `Nguoi`, `ThuCung`, `SanPham`, `DichVu`, `QuanLyCoBan` |
-| Interface | `MatHang`, `CoMaKhoa`, `QuanLy<T>`, `TextCodec<T>` |
+| Interface | `MatHang`, `CoMaKhoa`, `QuanLy<T>`, `DocGhiFile.Codec<T>` |
 
 ## 7. Định dạng tệp dữ liệu
 

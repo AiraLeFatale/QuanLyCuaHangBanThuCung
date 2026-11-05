@@ -1,0 +1,41 @@
+# thucung.txt - dữ liệu cửa hàng thú cưng (UTF-8)
+Chó|TC001|Milu|2025-03-12|6500000|2|CON_BAN|Poodle|Nhỏ|true
+Chó|TC002|Bông|2024-11-02|12000000|1|CON_BAN|Golden Retriever|Lớn|true
+Chó|TC003|Lu|2025-07-20|15000000|1|CON_BAN|Corgi|Vừa|false
+Mèo|TC004|Miu|2025-01-08|8000000|3|CON_BAN|Anh lông ngắn|false|true
+Mèo|TC005|Mun|2025-05-15|1200000|4|CON_BAN|Mèo ta|false|false
+Mèo|TC006|Bối|2024-09-30|9500000|1|CON_BAN|Ba Tư|true|true
+Chim|TC007|Két|2025-02-20|1800000|2|CON_BAN|Vẹt Úc|true|Xanh lá
+Chim|TC008|Chào|2025-06-01|700000|3|CON_BAN|Chào mào|false|Nâu đỏ
+Chim|TC009|Vàng Anh|2025-08-05|450000|0|DA_BAN|Vàng anh|false|Vàng
+Mèo|TC010|Sushi|2025-04-18|4500000|1|CACH_LY|Munchkin|false|true
+Chó|TC011|Kem|2025-09-14|9500000|2|CON_BAN|Pomeranian|Nhỏ|true
+Chó|TC012|Sói|2025-06-22|11000000|1|CON_BAN|Husky Siberia|Lớn|true
+Chó|TC013|Mochi|2025-10-03|13500000|2|CON_BAN|Shiba Inu|Vừa|true
+Chó|TC014|Xíu|2025-08-19|5500000|3|CON_BAN|Chihuahua|Nhỏ|false
+Chó|TC015|Vàng|2025-04-11|3500000|2|CON_BAN|Phú Quốc|Vừa|true
+Chó|TC016|Gấu|2025-02-27|18000000|1|CON_BAN|Alaska Malamute|Lớn|true
+Chó|TC017|Tuyết|2025-07-08|16500000|1|CON_BAN|Samoyed|Lớn|true
+Chó|TC018|Rex|2024-12-15|7000000|1|CON_BAN|Becgie Đức|Lớn|true
+Chó|TC019|Bơ|2025-09-01|8500000|2|CON_BAN|Pug|Nhỏ|false
+Chó|TC020|Nấm|2025-11-12|4800000|2|CON_BAN|Poodle Toy|Nhỏ|false
+Chó|TC021|Bắp|2025-05-30|10500000|0|DA_BAN|Labrador|Lớn|true
+Mèo|TC022|Mướp|2025-08-02|2500000|3|CON_BAN|Mèo vàng|false|false
+Mèo|TC023|Bông Gòn|2025-10-21|7500000|2|CON_BAN|Anh lông dài|true|false
+Mèo|TC024|Tai Cụp|2025-07-16|12500000|2|CON_BAN|Scottish Fold|false|true
+Mèo|TC025|Hổ Con|2025-09-09|14000000|1|CON_BAN|Bengal|false|false
+Mèo|TC026|Khổng Lồ|2025-03-05|16000000|1|CON_BAN|Maine Coon|true|true
+Mèo|TC027|Búp Bê|2025-06-18|13000000|1|CON_BAN|Ragdoll|true|true
+Mèo|TC028|Xiêm Xiêm|2025-11-04|3800000|2|CON_BAN|Xiêm|false|false
+Mèo|TC029|Chân Ngắn|2025-12-10|6500000|2|CON_BAN|Munchkin|false|false
+Mèo|TC030|Trụi|2025-05-07|9000000|1|CON_BAN|Sphynx|false|true
+Mèo|TC031|Xám|2025-08-26|8800000|3|CON_BAN|British Shorthair|false|true
+Mèo|TC032|Bạc|2025-01-20|10500000|0|DA_BAN|Russian Blue|false|true
+Mèo|TC033|Cam|2025-10-30|5200000|1|CACH_LY|Mèo Anh lông ngắn|false|false
+Chim|TC034|Cu Li|2025-07-02|1500000|4|CON_BAN|Vẹt Cockatiel|true|Xám vàng
+Chim|TC035|Phụng|2025-09-25|350000|6|CON_BAN|Yến phụng|false|Xanh dương
+Chim|TC036|Họa|2025-04-14|2800000|2|CON_BAN|Họa mi|false|Nâu
+Chim|TC037|Đào|2025-10-08|900000|5|CON_BAN|Vẹt Lovebird|false|Cam đào
+Chim|TC038|Sắc Màu|2025-06-11|4500000|1|CON_BAN|Vẹt Xích Đạo|true|Xanh đỏ
+Chim|TC039|Khướu|2025-03-28|1200000|3|CON_BAN|Khướu|true|Nâu xám
+Chim|TC040|Sáo|2025-08-13|1600000|0|DA_BAN|Sáo|true|Đen

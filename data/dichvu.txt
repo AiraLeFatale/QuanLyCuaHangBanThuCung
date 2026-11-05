@@ -1,0 +1,41 @@
+# dichvu.txt - dữ liệu cửa hàng thú cưng (UTF-8)
+Tắm & sấy|DV001|Tắm sấy chó nhỏ|150000|45|Nhỏ
+Tắm & sấy|DV002|Tắm sấy chó lớn|250000|60|Lớn
+Cắt tỉa|DV003|Cắt tỉa tạo kiểu|200000|50|Tạo kiểu
+Tiêm phòng|DV004|Tiêm phòng dại|180000|15|Vắc-xin dại
+Tắm & sấy|DV005|Tắm sấy chó vừa|200000|50|Vừa
+Tắm & sấy|DV006|Tắm sấy mèo|180000|45|Nhỏ
+Tắm & sấy|DV007|Tắm sấy mèo lông dài|230000|60|Vừa
+Tắm & sấy|DV008|Tắm trị ve rận|280000|60|Vừa
+Tắm & sấy|DV009|Tắm dưỡng lông cao cấp|320000|75|Lớn
+Tắm & sấy|DV010|Tắm thuốc trị nấm da|300000|60|Vừa
+Tắm & sấy|DV011|Tắm sấy chó siêu lớn|350000|80|Siêu lớn
+Tắm & sấy|DV012|Tắm khô cho thú nhỏ|90000|25|Nhỏ
+Tắm & sấy|DV013|Vệ sinh tai và cắt móng|70000|20|Mọi kích thước
+Tắm & sấy|DV014|Tắm sấy chó con dưới 3 tháng|120000|35|Nhỏ
+Tắm & sấy|DV015|Combo tắm và vệ sinh răng miệng|260000|70|Vừa
+Tắm & sấy|DV016|Tắm sấy thỏ, chuột cảnh|80000|25|Nhỏ
+Cắt tỉa|DV017|Cắt tỉa lông chó poodle|250000|70|Poodle
+Cắt tỉa|DV018|Cắt tỉa lông mèo|220000|60|Cắt ngắn
+Cắt tỉa|DV019|Cạo lông mùa hè|180000|45|Cạo ngắn
+Cắt tỉa|DV020|Tỉa gọn chân và mặt|100000|25|Tỉa gọn
+Cắt tỉa|DV021|Cắt tỉa tạo kiểu teddy|300000|80|Teddy
+Cắt tỉa|DV022|Cắt tỉa tạo kiểu sư tử|350000|90|Sư tử
+Cắt tỉa|DV023|Gỡ rối lông|150000|40|Gỡ rối
+Cắt tỉa|DV024|Nhuộm lông nghệ thuật|450000|100|Nhuộm màu
+Cắt tỉa|DV025|Cắt móng và mài móng|60000|15|Cắt móng
+Cắt tỉa|DV026|Cắt tỉa lông chó lớn|320000|90|Cắt đều
+Cắt tỉa|DV027|Tỉa lông bàn chân|80000|20|Tỉa chân
+Cắt tỉa|DV028|Cắt tỉa lông thú nhỏ|120000|30|Cắt gọn
+Tiêm phòng|DV029|Tiêm phòng 5 bệnh cho chó|380000|20|Vắc-xin 5 bệnh
+Tiêm phòng|DV030|Tiêm phòng 7 bệnh cho chó|450000|20|Vắc-xin 7 bệnh
+Tiêm phòng|DV031|Tiêm phòng 3 bệnh cho mèo|320000|20|Vắc-xin 3 bệnh
+Tiêm phòng|DV032|Tiêm phòng 4 bệnh cho mèo|400000|20|Vắc-xin 4 bệnh
+Tiêm phòng|DV033|Tiêm phòng bệnh dại cho mèo|180000|15|Vắc-xin dại
+Tiêm phòng|DV034|Tiêm nhắc lại hằng năm|350000|20|Vắc-xin nhắc lại
+Tiêm phòng|DV035|Tẩy giun định kỳ|100000|15|Thuốc tẩy giun
+Tiêm phòng|DV036|Tiêm phòng Care cho chó con|420000|25|Vắc-xin Care
+Tiêm phòng|DV037|Tiêm phòng bệnh Lepto|280000|15|Vắc-xin Lepto
+Tiêm phòng|DV038|Khám sức khỏe tổng quát|200000|30|Khám tổng quát
+Tiêm phòng|DV039|Tiêm phòng Parvo|300000|15|Vắc-xin Parvo
+Tiêm phòng|DV040|Gói tiêm phòng cho chó con|1100000|45|Gói 3 mũi

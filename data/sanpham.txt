@@ -1,0 +1,41 @@
+# sanpham.txt - dữ liệu cửa hàng thú cưng (UTF-8)
+Thức ăn|SP001|Hạt Royal Canin|320000|20|Chó|2.00|2027-05-30
+Thức ăn|SP002|Pate Whiskas|25000|40|Mèo|0.40|2027-01-15
+Thuốc|SP003|Thuốc xổ giun|120000|15|Tẩy giun cho chó mèo|2026-12-31|false
+Thuốc|SP004|Vắc-xin phòng dại|300000|10|Phòng bệnh dại|2027-03-01|true
+Phụ kiện|SP005|Dây dắt da|180000|12|Da bò|Nâu
+Phụ kiện|SP006|Nhà mèo gỗ|650000|5|Gỗ thông|Trắng
+Thức ăn|SP007|Hạt Pedigree vị bò|185000|30|Chó|1.50|2027-08-20
+Thức ăn|SP008|Hạt Me-O cá ngừ|95000|45|Mèo|1.20|2027-06-10
+Thức ăn|SP009|Pate Ciao gà|32000|60|Mèo|0.06|2027-03-25
+Thức ăn|SP010|Hạt SmartHeart gà|160000|25|Chó|1.50|2027-09-05
+Thức ăn|SP011|Hạt Royal Canin Kitten|420000|18|Mèo|2.00|2027-07-12
+Thức ăn|SP012|Xương gặm canxi|45000|50|Chó|0.20|2027-04-18
+Thức ăn|SP013|Cám yến phụng|38000|40|Chim|0.50|2027-02-28
+Thức ăn|SP014|Hạt Vẹt Vitakraft|120000|20|Chim|0.80|2027-05-15
+Thức ăn|SP015|Pate Pedigree sốt gan|28000|55|Chó|0.40|2027-01-30
+Thức ăn|SP016|Hạt Acana Dog|850000|8|Chó|2.00|2027-10-01
+Thức ăn|SP017|Snack thưởng cá sấy|52000|35|Mèo|0.10|2027-02-14
+Thức ăn|SP018|Sữa bột cho chó mèo con|210000|14|Chó|0.30|2027-06-30
+Thuốc|SP019|Thuốc nhỏ gáy trị ve rận|150000|25|Trị ve, rận, bọ chét|2027-05-20|false
+Thuốc|SP020|Vắc-xin 5 bệnh cho chó|350000|12|Phòng 5 bệnh ở chó|2027-02-10|true
+Thuốc|SP021|Vắc-xin 4 bệnh cho mèo|330000|10|Phòng 4 bệnh ở mèo|2027-03-22|true
+Thuốc|SP022|Men tiêu hóa Bio|85000|30|Hỗ trợ tiêu hóa|2027-07-01|false
+Thuốc|SP023|Thuốc nhỏ mắt Oflox|65000|20|Viêm mắt, đau mắt|2027-04-05|false
+Thuốc|SP024|Kháng sinh Amoxicillin|110000|16|Nhiễm khuẩn đường hô hấp|2027-01-18|true
+Thuốc|SP025|Thuốc nhỏ tai Epiotic|140000|15|Vệ sinh, điều trị viêm tai|2027-06-09|false
+Thuốc|SP026|Vitamin tổng hợp Nutri-Plus|180000|22|Bổ sung vitamin|2027-08-30|false
+Phụ kiện|SP027|Vòng cổ chuông|60000|40|Vải dù|Đỏ
+Phụ kiện|SP028|Lồng vận chuyển size M|420000|10|Nhựa ABS|Xám
+Phụ kiện|SP029|Bát ăn inox đôi|95000|30|Inox 304|Bạc
+Phụ kiện|SP030|Cào móng cho mèo|130000|18|Giấy carton|Nâu
+Phụ kiện|SP031|Quần áo chó mùa đông|150000|25|Len|Xanh navy
+Phụ kiện|SP032|Đệm nằm size L|380000|9|Bông PP|Be
+Phụ kiện|SP033|Bóng cao su phát tiếng|45000|50|Cao su|Vàng
+Phụ kiện|SP034|Lồng chim mạ crom|350000|7|Thép mạ crom|Bạc
+Phụ kiện|SP035|Dây dắt tự cuốn 5m|210000|14|Nhựa và nylon|Đen
+Phụ kiện|SP036|Cát vệ sinh cho mèo|120000|35|Đất sét bentonite|Trắng
+Phụ kiện|SP037|Bàn chải lông|70000|28|Nhựa và thép|Hồng
+Phụ kiện|SP038|Khay vệ sinh có nắp|290000|8|Nhựa PP|Xanh mint
+Phụ kiện|SP039|Yếm ngực cho chó|110000|24|Vải lưới|Cam
+Phụ kiện|SP040|Cây cào móng nhiều tầng|780000|4|Gỗ MDF và thảm sisal|Kem

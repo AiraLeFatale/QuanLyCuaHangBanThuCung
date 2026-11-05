@@ -17,6 +17,6 @@ if errorlevel 1 (
 )
 
 echo [2/2] Dang chay...
-java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstdin.encoding=UTF-8 -cp out petshop.app.Main %*
+java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstdin.encoding=UTF-8 -cp out main.Main %*
 
 endlocal

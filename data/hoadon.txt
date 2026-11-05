@@ -1,0 +1,41 @@
+# hoadon.txt - dữ liệu cửa hàng thú cưng (UTF-8)
+HD001|2026-03-20T08:05:26|KH005|Phạm Hữu Thắng|VANG|NV040|Hồ Kim Ánh|TC025~Hổ Con~Mèo~1~14000000
+HD002|2026-03-21T13:19:37|KH037|Hoàng Kim Yến|BAC|NV031|Trần Diễm Phượng|SP018~Sữa bột cho chó mèo con~Thức ăn~1~210000
+HD003|2026-03-28T00:06:53|KH013|Phạm Hoàng Phúc|BAC|NV015|Hoàng Mai Vy|SP006~Nhà mèo gỗ~Phụ kiện~2~650000;DV035~Tẩy giun định kỳ~Tiêm phòng~1~100000
+HD004|2026-03-29T05:32:39|KH035|Vũ Mai Trinh|THUONG|NV003|Đỗ Văn Khánh|TC031~Xám~Mèo~1~8800000;SP036~Cát vệ sinh cho mèo~Phụ kiện~2~120000
+HD005|2026-03-31T12:52:29|KH009|Lý Thu Oanh|THUONG|NV007|Bùi Mai Hà|DV013~Vệ sinh tai và cắt móng~Tắm & sấy~1~70000
+HD006|2026-04-05T13:26:15|KH008|Lý Gia Lộc|VANG|NV019|Hồ Minh Tuấn|SP038~Khay vệ sinh có nắp~Phụ kiện~3~290000;DV024~Nhuộm lông nghệ thuật~Cắt tỉa~1~450000
+HD007|2026-04-08T13:23:51|KH013|Phạm Hoàng Phúc|BAC|NV037|Phạm Thanh Khoa|DV024~Nhuộm lông nghệ thuật~Cắt tỉa~2~450000
+HD008|2026-04-15T05:56:12|KH005|Phạm Hữu Thắng|VANG|NV030|Dương Thanh Nhi|DV040~Gói tiêm phòng cho chó con~Tiêm phòng~1~1100000
+HD009|2026-04-25T07:41:01|KH035|Vũ Mai Trinh|THUONG|NV002|Nguyễn Thị Hoa|DV023~Gỡ rối lông~Cắt tỉa~1~150000;DV018~Cắt tỉa lông mèo~Cắt tỉa~2~220000
+HD010|2026-05-03T13:46:27|KH003|Lê Minh Cường|BAC|NV014|Phạm Đức Thịnh|DV018~Cắt tỉa lông mèo~Cắt tỉa~2~220000
+HD011|2026-05-08T06:40:46|KH026|Hoàng Thanh Bình|THUONG|NV040|Hồ Kim Ánh|SP014~Hạt Vẹt Vitakraft~Thức ăn~2~120000
+HD012|2026-05-12T15:54:39|KH008|Lý Gia Lộc|VANG|NV013|Hoàng Minh Nam|TC005~Mun~Mèo~1~1200000;SP031~Quần áo chó mùa đông~Phụ kiện~2~150000;DV019~Cạo lông mùa hè~Cắt tỉa~1~180000
+HD013|2026-05-14T08:22:58|KH009|Lý Thu Oanh|THUONG|NV033|Huỳnh Kim Phượng|TC005~Mun~Mèo~1~1200000
+HD014|2026-05-15T19:22:28|KH019|Phạm Công Lộc|BAC|NV036|Lê Anh Vinh|TC006~Bối~Mèo~1~9500000;SP013~Cám yến phụng~Thức ăn~1~38000;DV035~Tẩy giun định kỳ~Tiêm phòng~1~100000
+HD015|2026-05-21T00:57:15|KH002|Trần Thị Bình|VANG|NV015|Hoàng Mai Vy|TC002~Bông~Chó~1~12000000;SP021~Vắc-xin 4 bệnh cho mèo~Thuốc~1~330000
+HD016|2026-05-23T04:41|KH017|Huỳnh Thị Tâm|BAC|NV022|Đỗ Thanh Tâm|DV027~Tỉa lông bàn chân~Cắt tỉa~1~80000;DV035~Tẩy giun định kỳ~Tiêm phòng~1~100000
+HD017|2026-05-30T12:16:25|KH003|Lê Minh Cường|BAC|NV017|Phạm Hoàng Vinh|SP032~Đệm nằm size L~Phụ kiện~3~380000;SP004~Vắc-xin phòng dại~Thuốc~2~300000
+HD018|2026-06-05T22:24:35|KH024|Võ Gia Thịnh|THUONG|NV009|Đặng Thanh Phượng|DV017~Cắt tỉa lông chó poodle~Cắt tỉa~1~250000;DV026~Cắt tỉa lông chó lớn~Cắt tỉa~1~320000
+HD019|2026-06-08T12:01:09|KH002|Trần Thị Bình|VANG|NV020|Trần Thanh Tâm|SP004~Vắc-xin phòng dại~Thuốc~1~300000;SP031~Quần áo chó mùa đông~Phụ kiện~1~150000
+HD020|2026-06-22T13:51:33|KH031|Đặng Diễm Hương|BAC|NV019|Hồ Minh Tuấn|SP023~Thuốc nhỏ mắt Oflox~Thuốc~1~65000
+HD021|2026-07-09T19:49:09|KH017|Huỳnh Thị Tâm|BAC|NV004|Lý Quốc Long|TC029~Chân Ngắn~Mèo~1~6500000;SP015~Pate Pedigree sốt gan~Thức ăn~1~28000
+HD022|2026-07-13T17:17:16|KH018|Ngô Minh Quân|THUONG|NV009|Đặng Thanh Phượng|SP001~Hạt Royal Canin~Thức ăn~1~320000;SP003~Thuốc xổ giun~Thuốc~3~120000
+HD023|2026-07-19T03:51:51|KH023|Đỗ Mai Trinh|VANG|NV007|Bùi Mai Hà|TC009~Vàng Anh~Chim~1~450000;SP013~Cám yến phụng~Thức ăn~2~38000;DV012~Tắm khô cho thú nhỏ~Tắm & sấy~1~90000
+HD024|2026-07-29T16:28:56|KH028|Võ Mai Phượng|THUONG|NV013|Hoàng Minh Nam|TC029~Chân Ngắn~Mèo~1~6500000;SP036~Cát vệ sinh cho mèo~Phụ kiện~3~120000;DV013~Vệ sinh tai và cắt móng~Tắm & sấy~1~70000
+HD025|2026-07-31T20:42:17|KH026|Hoàng Thanh Bình|THUONG|NV017|Phạm Hoàng Vinh|SP014~Hạt Vẹt Vitakraft~Thức ăn~3~120000;SP017~Snack thưởng cá sấy~Thức ăn~2~52000;DV016~Tắm sấy thỏ, chuột cảnh~Tắm & sấy~1~80000
+HD026|2026-08-01T23:36:18|KH036|Bùi Phương Hà|THUONG|NV003|Đỗ Văn Khánh|TC019~Bơ~Chó~1~8500000;SP012~Xương gặm canxi~Thức ăn~1~45000
+HD027|2026-08-06T18:02:50|KH030|Nguyễn Thanh Lộc|THUONG|NV007|Bùi Mai Hà|TC016~Gấu~Chó~1~18000000;SP020~Vắc-xin 5 bệnh cho chó~Thuốc~3~350000
+HD028|2026-08-19T17:58:11|KH030|Nguyễn Thanh Lộc|THUONG|NV037|Phạm Thanh Khoa|SP003~Thuốc xổ giun~Thuốc~2~120000;SP019~Thuốc nhỏ gáy trị ve rận~Thuốc~1~150000
+HD029|2026-08-24T15:47:27|KH003|Lê Minh Cường|BAC|NV010|Võ Thanh Long|SP022~Men tiêu hóa Bio~Thuốc~1~85000;SP025~Thuốc nhỏ tai Epiotic~Thuốc~3~140000
+HD030|2026-08-31T01:55:04|KH021|Phạm Bảo Linh|THUONG|NV019|Hồ Minh Tuấn|SP008~Hạt Me-O cá ngừ~Thức ăn~2~95000
+HD031|2026-09-08T18:37:19|KH008|Lý Gia Lộc|VANG|NV031|Trần Diễm Phượng|TC036~Họa~Chim~1~2800000
+HD032|2026-09-14T08:16:52|KH009|Lý Thu Oanh|THUONG|NV009|Đặng Thanh Phượng|SP037~Bàn chải lông~Phụ kiện~2~70000;SP015~Pate Pedigree sốt gan~Thức ăn~2~28000;DV040~Gói tiêm phòng cho chó con~Tiêm phòng~1~1100000
+HD033|2026-09-15T05:05:17|KH001|Nguyễn Văn An|KIM_CUONG|NV030|Dương Thanh Nhi|SP011~Hạt Royal Canin Kitten~Thức ăn~2~420000;DV031~Tiêm phòng 3 bệnh cho mèo~Tiêm phòng~1~320000
+HD034|2026-09-21T09:48:40|KH030|Nguyễn Thanh Lộc|THUONG|NV022|Đỗ Thanh Tâm|SP036~Cát vệ sinh cho mèo~Phụ kiện~1~120000
+HD035|2026-09-24T16:41:47|KH018|Ngô Minh Quân|THUONG|NV035|Bùi Diễm Nhi|SP026~Vitamin tổng hợp Nutri-Plus~Thuốc~1~180000;DV012~Tắm khô cho thú nhỏ~Tắm & sấy~2~90000
+HD036|2026-10-12T21:46:53|KH006|Phạm Anh Long|THUONG|NV026|Vũ Phương Nhi|SP026~Vitamin tổng hợp Nutri-Plus~Thuốc~1~180000;SP036~Cát vệ sinh cho mèo~Phụ kiện~1~120000;DV005~Tắm sấy chó vừa~Tắm & sấy~1~200000
+HD037|2026-10-16T09:09:44|KH002|Trần Thị Bình|VANG|NV031|Trần Diễm Phượng|TC022~Mướp~Mèo~1~2500000
+HD038|2026-10-18T10:27:45|KH009|Lý Thu Oanh|THUONG|NV001|Trần Quốc Bảo|TC034~Cu Li~Chim~1~1500000
+HD039|2026-10-19T17:10:51|KH004|Phạm Thu Dung|THUONG|NV034|Phạm Kim Ngân|TC040~Sáo~Chim~1~1600000
+HD040|2026-10-31T18:10:53|KH007|Đặng Bảo Trinh|THUONG|NV020|Trần Thanh Tâm|TC014~Xíu~Chó~1~5500000
