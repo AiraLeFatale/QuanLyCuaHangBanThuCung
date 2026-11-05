@@ -1,0 +1,13 @@
+# Bỏ qua thư mục biên dịch và báo cáo sinh ra khi chạy
+out/
+bin/
+reports/
+
+# Tệp của IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+*.class
