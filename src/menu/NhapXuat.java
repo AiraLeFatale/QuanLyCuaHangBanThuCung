@@ -16,7 +16,7 @@ public final class NhapXuat {
     private NhapXuat() {
     }
 
-    private static final Scanner SCANNER = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8);
+    private static final Scanner SCANNER = new Scanner(System.in, "UTF-8");
 
     /** Lặp một chuỗi n lần (thay cho String.repeat của Java 11). */
     private static String lap(String chuoi, int soLan) {

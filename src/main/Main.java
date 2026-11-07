@@ -3,7 +3,7 @@ package main;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
@@ -18,8 +18,8 @@ public class Main {
     public static void main(String[] args) {
         // Bảo đảm tiếng Việt hiển thị đúng trên console Windows (cần chcp 65001).
         try {
-            System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, StandardCharsets.UTF_8));
-        } catch (RuntimeException ignored) {
+            System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "UTF-8"));
+        } catch (UnsupportedEncodingException ignored) {
             // giữ System.out mặc định nếu không thay được
         }
 

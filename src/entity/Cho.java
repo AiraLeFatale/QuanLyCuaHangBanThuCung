@@ -15,7 +15,7 @@ public class Cho extends ThuCung {
                TrangThaiThuCung trangThai, String giong, String kichThuoc, boolean daTiemPhong) {
         super(ma, ten, ngaySinh, giaBan, soLuong, trangThai);
         this.giong = giong == null ? "" : giong;
-        this.kichThuoc = kichThuoc == null || kichThuoc.isBlank() ? "Vừa" : kichThuoc;
+        this.kichThuoc = kichThuoc == null || kichThuoc.trim().isEmpty() ? "Vừa" : kichThuoc;
         this.daTiemPhong = daTiemPhong;
     }
 
@@ -32,7 +32,7 @@ public class Cho extends ThuCung {
     }
 
     public void setKichThuoc(String kichThuoc) {
-        this.kichThuoc = kichThuoc == null || kichThuoc.isBlank() ? "Vừa" : kichThuoc;
+        this.kichThuoc = kichThuoc == null || kichThuoc.trim().isEmpty() ? "Vừa" : kichThuoc;
     }
 
     public boolean isDaTiemPhong() {
