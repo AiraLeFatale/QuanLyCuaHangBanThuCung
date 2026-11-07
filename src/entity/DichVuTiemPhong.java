@@ -1,5 +1,7 @@
 package entity;
 
+import util.DocGhiFile;
+
 /** Dịch vụ tiêm phòng cho thú cưng. */
 public class DichVuTiemPhong extends DichVu {
 
@@ -26,5 +28,10 @@ public class DichVuTiemPhong extends DichVu {
     @Override
     public String getDacDiem() {
         return "Vắc-xin " + loaiVacXin + ", khoảng " + getThoiGianPhut() + " phút";
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(loaiVacXin);
     }
 }

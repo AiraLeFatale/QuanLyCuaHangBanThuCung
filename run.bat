@@ -1,7 +1,7 @@
 @echo off
 REM ============================================================
 REM  Bien dich va chay ung dung Quan Ly Cua Hang Ban Thu Cung
-REM  Yeu cau: JDK 17 tro len (khuyen nghi JDK 21)
+REM  Yeu cau: JDK 8 tro len (khuyen nghi JDK 21; da kiem thu JDK 21)
 REM ============================================================
 chcp 65001 >nul
 setlocal
@@ -17,6 +17,6 @@ if errorlevel 1 (
 )
 
 echo [2/2] Dang chay...
-java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstdin.encoding=UTF-8 -cp out main.Main %*
+java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -Dstdin.encoding=UTF-8 -cp out main.Main %*
 
 endlocal

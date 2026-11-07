@@ -3,6 +3,7 @@ package entity;
 import java.util.Objects;
 
 import inter.MatHang;
+import util.DocGhiFile;
 
 /**
  * Một dòng trong hóa đơn. Thông tin mặt hàng được "chụp lại" tại thời điểm bán
@@ -64,5 +65,20 @@ public class ChiTietHoaDon {
     /** Bản sao với số lượng mới (dùng khi cộng dồn cùng một mặt hàng trong giỏ). */
     public ChiTietHoaDon voiSoLuong(int soLuongMoi) {
         return new ChiTietHoaDon(maHang, tenHang, loaiHang, soLuongMoi, donGia);
+    }
+
+    /** Định dạng: maHang~tenHang~loaiHang~soLuong~donGia */
+    public String toFileString() {
+        return DocGhiFile.maHoa(maHang) + "~" + DocGhiFile.maHoa(tenHang) + "~"
+                + DocGhiFile.maHoa(loaiHang) + "~" + soLuong + "~" + Math.round(donGia);
+    }
+
+    public static ChiTietHoaDon fromFileString(String dong) {
+        String[] p = dong.split("~", -1);
+        if (p.length < 5) {
+            throw new IllegalArgumentException("chi tiết hóa đơn không hợp lệ: " + dong);
+        }
+        return new ChiTietHoaDon(DocGhiFile.giaiMa(p[0]), DocGhiFile.giaiMa(p[1]),
+                DocGhiFile.giaiMa(p[2]), Integer.parseInt(p[3]), Double.parseDouble(p[4]));
     }
 }

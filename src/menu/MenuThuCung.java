@@ -3,7 +3,6 @@ package menu;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import entity.Chim;
 import entity.Cho;
@@ -43,18 +42,27 @@ public class MenuThuCung {
 
             int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 6);
             switch (chon) {
-                case 1 -> {
+                case 1:
                     xemDanhSach(cuaHang.getThuCung().tatCa(), "Danh sách thú cưng");
                     NhapXuat.tamDung();
-                }
-                case 2 -> them();
-                case 3 -> capNhat();
-                case 4 -> xoa();
-                case 5 -> timKiem();
-                case 6 -> sapXep();
-                default -> {
+                    break;
+                case 2:
+                    them();
+                    break;
+                case 3:
+                    capNhat();
+                    break;
+                case 4:
+                    xoa();
+                    break;
+                case 5:
+                    timKiem();
+                    break;
+                case 6:
+                    sapXep();
+                    break;
+                default:
                     return;
-                }
             }
         }
     }
@@ -95,13 +103,12 @@ public class MenuThuCung {
     private void capNhat() {
         NhapXuat.muc("Cập nhật thú cưng");
         String ma = NhapXuat.docBatBuoc("Mã thú cưng: ", "Mã thú cưng");
-        Optional<ThuCung> tim = cuaHang.getThuCung().tim(ma);
-        if (tim.isEmpty()) {
+        ThuCung cu = cuaHang.getThuCung().tim(ma);
+        if (cu == null) {
             NhapXuat.loi("Không tìm thấy thú cưng " + ma);
             NhapXuat.tamDung();
             return;
         }
-        ThuCung cu = tim.get();
         System.out.println("Hiện tại: " + cu.getTen() + " - " + cu.getLoai()
                 + " - " + Tien.dinhDang(cu.getGiaBan()) + " - SL " + cu.getSoLuong());
         System.out.println("(Để trống ở mỗi câu hỏi là giữ nguyên giá trị cũ)");
@@ -119,13 +126,12 @@ public class MenuThuCung {
     private void xoa() {
         NhapXuat.muc("Xóa thú cưng");
         String ma = NhapXuat.docBatBuoc("Mã thú cưng: ", "Mã thú cưng");
-        Optional<ThuCung> tim = cuaHang.getThuCung().tim(ma);
-        if (tim.isEmpty()) {
+        ThuCung t = cuaHang.getThuCung().tim(ma);
+        if (t == null) {
             NhapXuat.loi("Không tìm thấy thú cưng " + ma);
             NhapXuat.tamDung();
             return;
         }
-        ThuCung t = tim.get();
         System.out.println("Sẽ xóa: " + t.getMa() + " - " + t.getTen() + " (" + t.getLoai() + ")");
         if (!NhapXuat.xacNhan("Xác nhận xóa?")) {
             NhapXuat.thongBao("Đã hủy thao tác");
@@ -147,12 +153,21 @@ public class MenuThuCung {
         String tuKhoa = NhapXuat.doc("Từ khóa (mã / tên / đặc điểm), bỏ trống để bỏ qua: ");
         System.out.println("  Lọc loại: 0-Tất cả  1-Chó  2-Mèo  3-Chim");
         int chon = NhapXuat.docSoNguyen("  Chọn: ", 0, 3);
-        String loai = switch (chon) {
-            case 1 -> "Chó";
-            case 2 -> "Mèo";
-            case 3 -> "Chim";
-            default -> "Tất cả";
-        };
+        String loai;
+        switch (chon) {
+            case 1:
+                loai = "Chó";
+                break;
+            case 2:
+                loai = "Mèo";
+                break;
+            case 3:
+                loai = "Chim";
+                break;
+            default:
+                loai = "Tất cả";
+                break;
+        }
         List<ThuCung> ketQua = cuaHang.getThuCung().timKiem(tuKhoa, loai);
         xemDanhSach(ketQua, "Kết quả tìm kiếm");
         NhapXuat.tamDung();
@@ -176,60 +191,66 @@ public class MenuThuCung {
         String loai = hoiLoai(coDuLieu == null ? null : coDuLieu.getLoai());
         boolean cungLoai = coDuLieu != null && coDuLieu.getLoai().equals(loai);
 
-        return switch (loai) {
-            case "Chó" -> {
-                Cho cu = cungLoai ? (Cho) coDuLieu : null;
-                String giong = NhapXuat.chuoi("  Giống chó", cu == null ? null : cu.getGiong());
-                String kichThuoc = hoiKichThuoc(cu == null ? "Vừa" : cu.getKichThuoc());
-                boolean tiemPhong = NhapXuat.coKhong("  Đã tiêm phòng", cu != null && cu.isDaTiemPhong());
-                yield new Cho(ma, ten, ngaySinh, giaBan, soLuong, trangThai, giong, kichThuoc, tiemPhong);
-            }
-            case "Mèo" -> {
-                Meo cu = cungLoai ? (Meo) coDuLieu : null;
-                String giong = NhapXuat.chuoi("  Giống mèo", cu == null ? null : cu.getGiong());
-                boolean daiLong = NhapXuat.coKhong("  Lông dài", cu != null && cu.isDaiLong());
-                boolean trietSan = NhapXuat.coKhong("  Đã triệt sản", cu != null && cu.isDaTrietSan());
-                yield new Meo(ma, ten, ngaySinh, giaBan, soLuong, trangThai, giong, daiLong, trietSan);
-            }
-            default -> {
-                Chim cu = cungLoai ? (Chim) coDuLieu : null;
-                String loaiChim = NhapXuat.chuoi("  Loài chim", cu == null ? null : cu.getLoaiChim());
-                boolean bietNoi = NhapXuat.coKhong("  Biết nói", cu != null && cu.isBietNoi());
-                String mauLong = NhapXuat.chuoi("  Màu lông", cu == null ? null : cu.getMauLong());
-                yield new Chim(ma, ten, ngaySinh, giaBan, soLuong, trangThai, loaiChim, bietNoi, mauLong);
-            }
-        };
+        if (loai.equals("Chó")) {
+            Cho cu = cungLoai ? (Cho) coDuLieu : null;
+            String giong = NhapXuat.chuoi("  Giống chó", cu == null ? null : cu.getGiong());
+            String kichThuoc = hoiKichThuoc(cu == null ? "Vừa" : cu.getKichThuoc());
+            boolean tiemPhong = NhapXuat.coKhong("  Đã tiêm phòng", cu != null && cu.isDaTiemPhong());
+            return new Cho(ma, ten, ngaySinh, giaBan, soLuong, trangThai, giong, kichThuoc, tiemPhong);
+        }
+        if (loai.equals("Mèo")) {
+            Meo cu = cungLoai ? (Meo) coDuLieu : null;
+            String giong = NhapXuat.chuoi("  Giống mèo", cu == null ? null : cu.getGiong());
+            boolean daiLong = NhapXuat.coKhong("  Lông dài", cu != null && cu.isDaiLong());
+            boolean trietSan = NhapXuat.coKhong("  Đã triệt sản", cu != null && cu.isDaTrietSan());
+            return new Meo(ma, ten, ngaySinh, giaBan, soLuong, trangThai, giong, daiLong, trietSan);
+        }
+        Chim cu = cungLoai ? (Chim) coDuLieu : null;
+        String loaiChim = NhapXuat.chuoi("  Loài chim", cu == null ? null : cu.getLoaiChim());
+        boolean bietNoi = NhapXuat.coKhong("  Biết nói", cu != null && cu.isBietNoi());
+        String mauLong = NhapXuat.chuoi("  Màu lông", cu == null ? null : cu.getMauLong());
+        return new Chim(ma, ten, ngaySinh, giaBan, soLuong, trangThai, loaiChim, bietNoi, mauLong);
     }
 
     private String hoiLoai(String hienTai) {
         System.out.println("  Loại: 1-Chó  2-Mèo  3-Chim"
                 + (hienTai == null ? "" : "  0-Giữ nguyên (" + hienTai + ")"));
         int chon = NhapXuat.docSoNguyen("  Chọn loại: ", hienTai == null ? 1 : 0, 3);
-        return switch (chon) {
-            case 0 -> hienTai;
-            case 1 -> "Chó";
-            case 2 -> "Mèo";
-            default -> "Chim";
-        };
+        switch (chon) {
+            case 0:
+                return hienTai;
+            case 1:
+                return "Chó";
+            case 2:
+                return "Mèo";
+            default:
+                return "Chim";
+        }
     }
 
     private String hoiKichThuoc(String hienTai) {
         System.out.println("  Kích cỡ: 1-Nhỏ  2-Vừa  3-Lớn  (hiện tại: " + hienTai + ")");
         int chon = NhapXuat.docSoNguyen("  Chọn: ", 1, 3);
-        return switch (chon) {
-            case 1 -> "Nhỏ";
-            case 3 -> "Lớn";
-            default -> "Vừa";
-        };
+        switch (chon) {
+            case 1:
+                return "Nhỏ";
+            case 3:
+                return "Lớn";
+            default:
+                return "Vừa";
+        }
     }
 
     private TrangThaiThuCung hoiTrangThai(TrangThaiThuCung hienTai) {
         System.out.println("  Trạng thái: 1-Còn bán  2-Đã bán  3-Cách ly  (hiện tại: " + hienTai.getNhan() + ")");
         int chon = NhapXuat.docSoNguyen("  Chọn: ", 1, 3);
-        return switch (chon) {
-            case 2 -> TrangThaiThuCung.DA_BAN;
-            case 3 -> TrangThaiThuCung.CACH_LY;
-            default -> TrangThaiThuCung.CON_BAN;
-        };
+        switch (chon) {
+            case 2:
+                return TrangThaiThuCung.DA_BAN;
+            case 3:
+                return TrangThaiThuCung.CACH_LY;
+            default:
+                return TrangThaiThuCung.CON_BAN;
+        }
     }
 }

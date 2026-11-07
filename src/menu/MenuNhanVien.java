@@ -2,7 +2,6 @@ package menu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import entity.GioiTinh;
 import entity.NhanVien;
@@ -38,23 +37,30 @@ public class MenuNhanVien {
 
             int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 6);
             switch (chon) {
-                case 1 -> {
+                case 1:
                     xemDanhSach(cuaHang.getNhanVien().tatCa(), "Danh sách nhân viên");
                     NhapXuat.tamDung();
-                }
-                case 2 -> them();
-                case 3 -> capNhat();
-                case 4 -> xoa();
-                case 5 -> timKiem();
-                case 6 -> {
+                    break;
+                case 2:
+                    them();
+                    break;
+                case 3:
+                    capNhat();
+                    break;
+                case 4:
+                    xoa();
+                    break;
+                case 5:
+                    timKiem();
+                    break;
+                case 6:
                     NhapXuat.muc("Tổng quỹ lương");
                     System.out.println("  Số nhân viên: " + cuaHang.getNhanVien().soLuong());
                     System.out.println("  Tổng lương  : " + Tien.dinhDang(cuaHang.getNhanVien().tongLuong()));
                     NhapXuat.tamDung();
-                }
-                default -> {
+                    break;
+                default:
                     return;
-                }
             }
         }
     }
@@ -103,13 +109,12 @@ public class MenuNhanVien {
     private void capNhat() {
         NhapXuat.muc("Cập nhật nhân viên");
         String ma = NhapXuat.docBatBuoc("Mã nhân viên: ", "Mã nhân viên");
-        Optional<NhanVien> tim = cuaHang.getNhanVien().tim(ma);
-        if (tim.isEmpty()) {
+        NhanVien cu = cuaHang.getNhanVien().tim(ma);
+        if (cu == null) {
             NhapXuat.loi("Không tìm thấy nhân viên " + ma);
             NhapXuat.tamDung();
             return;
         }
-        NhanVien cu = tim.get();
         System.out.println("Hiện tại: " + cu.getHoTen() + " - " + cu.getChucVu()
                 + " - " + Tien.dinhDang(cu.getLuong()));
         System.out.println("(Để trống ở mỗi câu hỏi là giữ nguyên giá trị cũ)");
@@ -136,13 +141,12 @@ public class MenuNhanVien {
     private void xoa() {
         NhapXuat.muc("Xóa nhân viên");
         String ma = NhapXuat.docBatBuoc("Mã nhân viên: ", "Mã nhân viên");
-        Optional<NhanVien> tim = cuaHang.getNhanVien().tim(ma);
-        if (tim.isEmpty()) {
+        NhanVien nv = cuaHang.getNhanVien().tim(ma);
+        if (nv == null) {
             NhapXuat.loi("Không tìm thấy nhân viên " + ma);
             NhapXuat.tamDung();
             return;
         }
-        NhanVien nv = tim.get();
         System.out.println("Sẽ xóa: " + nv.getMa() + " - " + nv.getHoTen());
         if (!NhapXuat.xacNhan("Xác nhận xóa?")) {
             NhapXuat.thongBao("Đã hủy thao tác");
@@ -169,11 +173,14 @@ public class MenuNhanVien {
     private GioiTinh hoiGioiTinh(GioiTinh hienTai) {
         System.out.println("  Giới tính: 1-Nam  2-Nữ  3-Khác  (hiện tại: " + hienTai.getNhan() + ")");
         int chon = NhapXuat.docSoNguyen("  Chọn: ", 1, 3);
-        return switch (chon) {
-            case 1 -> GioiTinh.NAM;
-            case 2 -> GioiTinh.NU;
-            default -> GioiTinh.KHAC;
-        };
+        switch (chon) {
+            case 1:
+                return GioiTinh.NAM;
+            case 2:
+                return GioiTinh.NU;
+            default:
+                return GioiTinh.KHAC;
+        }
     }
 
     private String hoiDienThoai(String hienTai) {

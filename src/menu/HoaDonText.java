@@ -1,9 +1,11 @@
-package util;
+package menu;
 
 import java.util.Map;
 
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
+import util.Tien;
+import util.TrangTri;
 
 
 /** Tạo nội dung hóa đơn dạng văn bản (dùng cho hộp thoại và xuất báo cáo). */

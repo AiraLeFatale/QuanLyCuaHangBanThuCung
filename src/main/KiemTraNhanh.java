@@ -2,7 +2,7 @@ package main;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Arrays;
 
 import entity.ChiTietHoaDon;
 import entity.DichVu;
@@ -30,7 +30,7 @@ final class KiemTraNhanh {
             Path thuMuc = Files.createTempDirectory("petshop-check");
             System.out.println("Thư mục kiểm tra: " + thuMuc);
 
-            CuaHang cuaHang = new CuaHang(thuMuc);
+            CuaHang cuaHang = new CuaHang(thuMuc.toString());
             boolean coDuLieuMau = DuLieuMau.napNeuTrong(cuaHang);
             System.out.println("[1] Dữ liệu mẫu: " + coDuLieuMau
                     + " | thú cưng=" + cuaHang.getThuCung().soLuong()
@@ -49,7 +49,7 @@ final class KiemTraNhanh {
             int tonSanPhamTruoc = sanPham.getSoLuong();
             int diemTruoc = khach.getDiemTichLuy();
 
-            HoaDon hoaDon = cuaHang.thanhToan(khach.getMa(), nhanVien.getMa(), List.of(
+            HoaDon hoaDon = cuaHang.thanhToan(khach.getMa(), nhanVien.getMa(), Arrays.asList(
                     ChiTietHoaDon.tuMatHang(thuCung, 1),
                     ChiTietHoaDon.tuMatHang(sanPham, 2),
                     ChiTietHoaDon.tuMatHang(dichVu, 1)));
@@ -59,16 +59,16 @@ final class KiemTraNhanh {
                     + " | giảm=" + Tien.dinhDang(hoaDon.getTienGiam())
                     + " | tổng=" + Tien.dinhDang(hoaDon.getTongTien()));
 
-            ThuCung thuCungSauBan = cuaHang.getThuCung().tim(thuCung.getMa()).orElseThrow();
-            SanPham sanPhamSauBan = cuaHang.getSanPham().tim(sanPham.getMa()).orElseThrow();
+            ThuCung thuCungSauBan = cuaHang.getThuCung().tim(thuCung.getMa());
+            SanPham sanPhamSauBan = cuaHang.getSanPham().tim(sanPham.getMa());
+            KhachHang khachSauBan = cuaHang.getKhachHang().tim(khach.getMa());
             System.out.println("[3] Tồn kho: thú cưng " + tonThuCungTruoc + " -> " + thuCungSauBan.getSoLuong()
                     + ", sản phẩm " + tonSanPhamTruoc + " -> " + sanPhamSauBan.getSoLuong()
-                    + " | điểm khách: " + diemTruoc + " -> "
-                    + cuaHang.getKhachHang().tim(khach.getMa()).orElseThrow().getDiemTichLuy());
+                    + " | điểm khách: " + diemTruoc + " -> " + khachSauBan.getDiemTichLuy());
 
             try {
                 cuaHang.thanhToan(khach.getMa(), nhanVien.getMa(),
-                        List.of(ChiTietHoaDon.tuMatHang(thuCung, 999)));
+                        Arrays.asList(ChiTietHoaDon.tuMatHang(thuCung, 999)));
                 System.out.println("[4] LỖI: đáng lẽ phải báo không đủ hàng");
             } catch (AppException ex) {
                 System.out.println("[4] Chặn bán vượt tồn kho đúng: " + ex.getMessage());
@@ -77,18 +77,18 @@ final class KiemTraNhanh {
             cuaHang.huyHoaDon(hoaDon.getMa());
             System.out.println("[5] Hủy hóa đơn " + hoaDon.getMa()
                     + " | tồn kho phục hồi: thú cưng="
-                    + cuaHang.getThuCung().tim(thuCung.getMa()).orElseThrow().getSoLuong()
-                    + ", sản phẩm=" + cuaHang.getSanPham().tim(sanPham.getMa()).orElseThrow().getSoLuong()
-                    + " | điểm khách=" + cuaHang.getKhachHang().tim(khach.getMa()).orElseThrow().getDiemTichLuy()
+                    + cuaHang.getThuCung().tim(thuCung.getMa()).getSoLuong()
+                    + ", sản phẩm=" + cuaHang.getSanPham().tim(sanPham.getMa()).getSoLuong()
+                    + " | điểm khách=" + cuaHang.getKhachHang().tim(khach.getMa()).getDiemTichLuy()
                     + " | số hóa đơn=" + cuaHang.getHoaDon().soLuong());
 
-            CuaHang docLai = new CuaHang(thuMuc);
+            CuaHang docLai = new CuaHang(thuMuc.toString());
             System.out.println("[6] Đọc lại từ tệp: hóa đơn=" + docLai.getHoaDon().soLuong()
                     + " doanh thu=" + Tien.dinhDang(docLai.getHoaDon().tongDoanhThu())
                     + " sản phẩm=" + docLai.getSanPham().soLuong()
                     + " dịch vụ=" + docLai.getDichVu().soLuong()
                     + " tồn kho " + thuCung.getMa() + "="
-                    + docLai.getThuCung().tim(thuCung.getMa()).orElseThrow().getSoLuong());
+                    + docLai.getThuCung().tim(thuCung.getMa()).getSoLuong());
 
             System.out.println("[7] Thuộc tính static: số đối tượng thú cưng đã tạo = "
                     + ThuCung.getSoLuongDaTao() + ", sản phẩm = " + SanPham.getSoLuongDaTao());

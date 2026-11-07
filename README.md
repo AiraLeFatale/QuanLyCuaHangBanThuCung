@@ -29,9 +29,11 @@ Quy tắc nghiệp vụ tiêu biểu:
 
 ## 2. Công nghệ
 
-- **Java 17+** (đã kiểm thử với JDK 21), giao diện **console** (menu + bảng văn bản).
+- **Java 8+** (cú pháp Java 8, đã kiểm thử với JDK 21), giao diện **console** (menu + bảng văn bản).
 - Lưu trữ: tệp văn bản UTF-8, mỗi dòng là một bản ghi, có mã hóa ký tự phân cách; ghi tệp an toàn
   qua tệp tạm rồi đổi tên.
+- Chỉ dùng `ArrayList`, vòng lặp `for`, `Collections.sort`, `switch - case`; không dùng generic tự viết,
+  Stream API, lambda, `var`, `Optional`, switch expression hay pattern matching.
 - Không dùng thư viện ngoài, không dùng build tool.
 
 ## 3. Cách chạy
@@ -111,11 +113,11 @@ QuanLyCuaHangBanThuCung/
 │   │                           #   SanPham, ThucAn, Thuoc, PhuKien, DichVu, DichVuTam,
 │   │                           #   DichVuCatTia, DichVuTiemPhong, HoaDon, ChiTietHoaDon
 │   │                           #   + 3 enum: GioiTinh, HangKhachHang, TrangThaiThuCung
-│   ├── inter/                  # interface: CoMaKhoa, MatHang, QuanLy<T>
-│   ├── manager/                # nghiệp vụ: QuanLyCoBan<T>, 6 lớp quản lý, CuaHang
-│   ├── menu/                   # màn hình console: MenuChinh + 8 menu con, NhapXuat
+│   ├── inter/                  # interface: CoMaKhoa, MatHang
+│   ├── manager/                # 6 lớp quản lý dùng ArrayList + CuaHang điều phối
+│   ├── menu/                   # màn hình console: MenuChinh + 8 menu con, NhapXuat, HoaDonText
 │   ├── util/                   # DocGhiFile (đọc/ghi .txt), AppException, Validator, Tien,
-│   │                           #   TrangTri, HoaDonText
+│   │                           #   TrangTri
 │   └── main/                   # Main, dữ liệu mẫu, kiểm tra nhanh (--check)
 ├── data/                       # sinh ra khi chạy: thucung, sanpham, dichvu,
 │                               #   khachhang, nhanvien, hoadon (.txt)
@@ -151,14 +153,16 @@ Main → nạp dữ liệu (data/) → MenuChinh
 
         HoaDon ◆── ChiTietHoaDon      (mỗi dòng lưu mã/tên/loại/đơn giá tại lúc bán)
 
-QuanLy<T> (interface) ─── QuanLyCoBan<T> (abstract)
-                              ▲        ▲         ▲        ▲         ▲
-                     QuanLyThuCung QuanLySanPham QuanLyDichVu QuanLyKhachHang QuanLyNhanVien (+ QuanLyHoaDon)
+QuanLyThuCung, QuanLySanPham, QuanLyDichVu,
+QuanLyKhachHang, QuanLyNhanVien, QuanLyHoaDon
+        │  mỗi lớp bọc một ArrayList và tự đọc/ghi tệp của mình
+        ▼
+     CuaHang ── điều phối 6 danh mục + nghiệp vụ bán hàng / hủy hóa đơn
+        ▲
+     MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng, nhân viên,
+                  bán hàng, hóa đơn, thống kê)
 
-DocGhiFile.Codec<T> (interface) ── DocGhiFile.Kho<T> ── 6 lớp DocGhiFile.*Codec
-CuaHang ── điều phối 6 danh mục + nghiệp vụ bán hàng / hủy hóa đơn
-MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng, nhân viên,
-             bán hàng, hóa đơn, thống kê)
+DocGhiFile ── đọc/ghi tệp text trực tiếp (doc, ghi, maHoa, giaiMa)
 ```
 
 ### 6.2. Các kỹ thuật OOP được sử dụng
@@ -166,30 +170,37 @@ MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng
 - **17 lớp đối tượng** trong gói `entity`:
   `Nguoi`, `KhachHang`, `NhanVien`, `ThuCung`, `Cho`, `Meo`, `Chim`,
   `SanPham`, `ThucAn`, `Thuoc`, `PhuKien`, `DichVu`, `DichVuTam`, `DichVuCatTia`,
-  `DichVuTiemPhong`, `HoaDon`, `ChiTietHoaDon` (chưa kể 3 enum và 4 interface).
+  `DichVuTiemPhong`, `HoaDon`, `ChiTietHoaDon` (chưa kể 3 enum và 2 interface).
 - **Hàm thiết lập (constructor)**: mọi lớp đều có constructor; lớp con gọi `super(...)`;
   `ChiTietHoaDon` có thêm factory `tuMatHang(MatHang, int)`.
-- **Trừu tượng hóa**: `Nguoi`, `ThuCung`, `SanPham`, `DichVu`, `QuanLyCoBan` là lớp trừu tượng,
+- **Trừu tượng hóa**: `Nguoi`, `ThuCung`, `SanPham`, `DichVu` là lớp trừu tượng,
   có phương thức trừu tượng (`getLoaiNguoi`, `getLoai`, `getDacDiem`, `getChiPhiChamSoc`...).
 - **Kế thừa**: `Cho`, `Meo`, `Chim` kế thừa `ThuCung`; `KhachHang`, `NhanVien` kế thừa `Nguoi`;
   `ThucAn`, `Thuoc`, `PhuKien` kế thừa `SanPham`; 3 lớp dịch vụ kế thừa `DichVu`.
 - **Đa hình**: cùng gọi `getLoai()`, `getDacDiem()`, `truKho()`, `hoanKho()` qua tham chiếu
   `MatHang` / `ThuCung`; giỏ hàng và hóa đơn chỉ làm việc với interface `MatHang` nên bán được
   lẫn lộn thú cưng, sản phẩm và dịch vụ.
-- **Interface & generic**: `MatHang` (mặt hàng bán được), `QuanLy<T>`, `QuanLyCoBan<T extends CoMaKhoa>`,
-  `DocGhiFile.Codec<T>`, `DocGhiFile.Kho<T>` dùng lại cho cả 6 loại dữ liệu.
+- **Interface**: `CoMaKhoa` (đối tượng có mã khóa) và `MatHang` (mặt hàng bán được, có
+  `getMa`, `getTen`, `getDonGia`, `getLoai`, `quanLyTonKho`, `truKho`, `hoanKho`).
 - **Thuộc tính static + phương thức static**:
   - `ThuCung.soLuongDaTao` + `ThuCung.getSoLuongDaTao()` đếm số đối tượng thú cưng đã tạo trong phiên
     (hiển thị ở đầu menu Quản lý thú cưng).
   - `SanPham.soLuongDaTao` + `SanPham.getSoLuongDaTao()`.
   - `HoaDon.TIEN_MOI_DIEM` (hằng số dùng chung cho quy tắc tích điểm).
-- **Lớp danh sách đối tượng**: `QuanLyCoBan<T>` bọc `List<T>` và cung cấp thêm/xóa/cập nhật/tìm/lưu;
-  các lớp `QuanLyThuCung`, `QuanLySanPham`, `QuanLyDichVu`... thêm nghiệp vụ lọc và sắp xếp.
-- **Đọc/ghi tệp text**: `DocGhiFile.Kho<T>` + các `*Codec`, ghi qua tệp tạm rồi đổi tên.
+- **Lớp danh sách đối tượng**: 6 lớp `QuanLyThuCung`, `QuanLySanPham`, `QuanLyDichVu`,
+  `QuanLyKhachHang`, `QuanLyNhanVien`, `QuanLyHoaDon` — mỗi lớp bọc một `ArrayList`,
+  cung cấp `them`, `sua`, `xoa`, `tim`, `tatCa`, `sinhMa`, `luu`, `doc`; vòng lặp `for` được dùng
+  để tìm kiếm, lọc và `Collections.sort` để sắp xếp.
+- **Đọc/ghi tệp text**: `DocGhiFile` cung cấp `doc`, `ghi`, `tach`, `maHoa`, `giaiMa`;
+  mỗi entity tự chuyển mình thành dòng text bằng `toFileString()` và đọc lại bằng `fromFileString()`.
+  Ghi tệp qua tệp tạm rồi đổi tên để tránh mất dữ liệu.
 - **Đóng gói**: thuộc tính `private`, thay đổi qua phương thức có kiểm tra (`truKho`, `congDiem`, `truDiem`...).
 - **Xử lý ngoại lệ**: `AppException` → `AppException.DuLieuKhongHopLe`, `AppException.KhongTimThay`,
   `AppException.NghiepVu`; tầng console bắt và in thông điệp tiếng Việt thay vì để chương trình dừng.
-- **Collection & Stream API**: `List`, `Map`, `Comparator`, lọc/tìm kiếm/thống kê bằng stream.
+- **Collection cơ bản**: `ArrayList` cho danh mục, `LinkedHashMap` để gộp dòng trùng khi thống kê,
+  `Collections.sort` với `Comparator` để sắp xếp; không dùng Stream API hay lambda.
+- **Điều khiển luồng cổ điển**: toàn bộ menu dùng `switch - case` với `break`, vòng lặp `for`,
+  `while`; không dùng switch expression hay pattern matching.
 - **Bất biến**: `HoaDon` và `ChiTietHoaDon` không đổi sau khi tạo; hóa đơn lưu lại thông tin
   tại thời điểm bán nên dữ liệu gốc thay đổi vẫn không làm sai hóa đơn cũ.
   "Sửa hóa đơn" = tạo hóa đơn mới thay thế với nhân viên lập khác; "xóa" = hủy hóa đơn.
@@ -201,13 +212,14 @@ MenuChinh ── 8 menu con (thú cưng, sản phẩm, dịch vụ, khách hàng
 | Xem, thêm, sửa, xóa, tìm kiếm | Có đủ ở 5 danh mục (thú cưng, sản phẩm, dịch vụ, khách hàng, nhân viên) + hóa đơn (xem/tạo/sửa/hủy/tìm) |
 | Ít nhất 15 lớp đối tượng | 17 lớp trong gói `entity` |
 | Có constructor | Tất cả các lớp |
-| Kế thừa hợp lý | 3 nhánh kế thừa: `Nguoi`, `ThuCung`, `SanPham`, `DichVu` |
+| Kế thừa hợp lý | 4 nhánh kế thừa: `Nguoi`, `ThuCung`, `SanPham`, `DichVu` |
 | Đa hình | Gọi phương thức qua `MatHang` / `ThuCung`; giỏ hàng đa loại |
-| Lớp mảng / danh sách đối tượng | `QuanLyCoBan<T>` bọc `List<T>` cho 6 danh mục |
-| Đọc/ghi file text | 6 tệp `.txt` UTF-8 trong `data/` |
+| Lớp mảng / danh sách đối tượng | 6 lớp quản lý, mỗi lớp bọc một `ArrayList` cho một danh mục |
+| Đọc/ghi file text | 6 tệp `.txt` UTF-8 trong `data/`, đọc/ghi qua `DocGhiFile` |
 | Thuộc tính static, phương thức static | `ThuCung.soLuongDaTao` / `getSoLuongDaTao()`, `SanPham.soLuongDaTao`, `HoaDon.TIEN_MOI_DIEM` |
-| Lớp trừu tượng, hàm trừu tượng | `Nguoi`, `ThuCung`, `SanPham`, `DichVu`, `QuanLyCoBan` |
-| Interface | `MatHang`, `CoMaKhoa`, `QuanLy<T>`, `DocGhiFile.Codec<T>` |
+| Lớp trừu tượng, hàm trừu tượng | `Nguoi`, `ThuCung`, `SanPham`, `DichVu` |
+| Interface | `MatHang`, `CoMaKhoa` |
+| Đóng gói, xử lý ngoại lệ | Thuộc tính `private`; `AppException` với 3 nhóm lỗi dữ liệu / không tìm thấy / nghiệp vụ |
 
 ## 7. Định dạng tệp dữ liệu
 
@@ -238,13 +250,52 @@ NV001|Trần Quốc Bảo|NAM|1990-02-08|0903111222|5 Pasteur, Quận 3|Quản l
 HD001|2026-10-21T09:30:15|KH001|Nguyễn Văn An|KIM_CUONG|NV001|Trần Quốc Bảo|TC001~Milu~Chó~1~6500000
 ```
 
-Các trường được sắp theo thứ tự cột cố định của từng loại; mỗi dòng hóa đơn lưu kèm tên khách hàng,
-tên nhân viên và tên mặt hàng tại thời điểm bán để hóa đơn cũ không bị sai lệch.
+Các trường được sắp theo thứ tự cột cố định của từng loại. Dòng đầu mỗi tệp là chú thích `#`.
+Mỗi entity tự chuyển thành dòng text bằng `toFileString()` và đọc lại bằng `fromFileString()`;
+lớp quản lý chỉ gọi `DocGhiFile.doc(...)` / `DocGhiFile.ghi(...)`.
+
+Mỗi dòng hóa đơn lưu kèm tên khách hàng, tên nhân viên (đã mã hóa) và danh sách chi tiết ngăn bởi `;`,
+mỗi chi tiết có dạng `ma~ten~loai~soLuong~donGia`; nhờ vậy hóa đơn cũ không bị sai lệch khi dữ liệu gốc thay đổi.
 
 ## 8. Ghi chú khi báo cáo / bảo vệ
 
 - Điểm nhấn nên trình bày: sơ đồ lớp ở mục 6, luồng
   `Bán hàng → CuaHang.thanhToan → kiểm tra tồn kho → trừ kho + cộng điểm + ghi tệp`,
-  luồng `Hủy hóa đơn → hoàn kho + trừ điểm`, và việc dùng generic để tái sử dụng tầng lưu trữ cho 6 loại dữ liệu.
+  luồng `Hủy hóa đơn → hoàn kho + trừ điểm`, và cách 6 lớp quản lý dùng `ArrayList` + `DocGhiFile`
+  để lưu từng danh mục mà không cần generic phức tạp.
+- Có thể chỉ ra tính đa hình: `CuaHang` và `HoaDon` chỉ làm việc với `MatHang`, nên bán lẫn lộn
+  thú cưng, sản phẩm và dịch vụ; mỗi lớp con tự quyết định `truKho`/`hoanKho` và `quanLyTonKho`.
 - Có thể xóa thư mục `data/` để chương trình nạp lại dữ liệu mẫu từ đầu.
 - Ứng dụng chưa có đăng nhập/phân quyền — phù hợp phạm vi đồ án môn học.
+
+## 9. Chạy trong VS Code (tránh lỗi font/tiếng Việt)
+
+Lỗi ký tự kiểu `Cß╗¼A HÀNG...` hoặc `Qu?n lý...` trong VS Code **không phải lỗi font** mà là
+lệch bảng mã: chương trình ghi UTF-8 nhưng terminal lại đọc theo code page cũ (437/1252).
+
+Cách chạy đúng:
+
+1. Mở terminal tích hợp trong VS Code (Ctrl + dấu backtick) và chạy:
+   ```
+   run.bat
+   ```
+   hoặc
+   ```
+   cmd /c run.bat
+   ```
+   `run.bat` đã tự gọi `chcp 65001` và truyền các cờ `-Dfile.encoding`, `-Dstdout.encoding`,
+   `-Dstderr.encoding`, `-Dstdin.encoding` cho Java.
+
+2. Project đã có sẵn `.vscode/settings.json`:
+   - Terminal mặc định là **Command Prompt (UTF-8)** (tự chạy `chcp 65001`).
+   - Font terminal: `Cascadia Mono`, `Cascadia Code`, `Consolas`, `Courier New`.
+   - Cấu hình `java.debug.settings.vmArgs` cho Java extension.
+
+3. Nếu terminal đang mở từ trước, hãy đóng terminal và mở lại (hoặc
+   `Terminal: Select Default Profile` → chọn **Command Prompt (UTF-8)**).
+
+4. Có thể chạy nhanh bằng `Ctrl + Shift + B` (task **Chạy chương trình (run.bat)**)
+   hoặc task **Kiểm tra nhanh (run.bat --check)**.
+
+5. Không chạy trực tiếp `java -cp out main.Main` trong terminal đang ở code page 437/1252;
+   nếu buộc phải chạy, gõ `chcp 65001` trước.

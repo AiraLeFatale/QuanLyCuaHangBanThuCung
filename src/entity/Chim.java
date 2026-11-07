@@ -2,6 +2,8 @@ package entity;
 
 import java.time.LocalDate;
 
+import util.DocGhiFile;
+
 /** Chim cảnh. Đặc điểm riêng: loài chim, có biết nói không, màu lông. */
 public class Chim extends ThuCung {
 
@@ -49,6 +51,12 @@ public class Chim extends ThuCung {
     @Override
     public String getDacDiem() {
         return "Loài " + loaiChim + ", lông màu " + mauLong + (bietNoi ? ", biết nói" : "");
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(loaiChim) + "|"
+                + bietNoi + "|" + DocGhiFile.maHoa(mauLong);
     }
 
     @Override

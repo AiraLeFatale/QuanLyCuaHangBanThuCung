@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import inter.MatHang;
 import util.AppException;
+import util.DocGhiFile;
 
 
 /**
@@ -101,6 +102,50 @@ public abstract class ThuCung implements MatHang {
 
     /** Chi phí chăm sóc ước tính mỗi tháng (đồng). */
     public abstract double getChiPhiChamSoc();
+
+    @Override
+    public boolean quanLyTonKho() {
+        return true;
+    }
+
+    /**
+     * Chuyển thú cưng thành một dòng văn bản.
+     * Lớp con gọi phương thức này rồi nối thêm các thuộc tính riêng.
+     */
+    public String toFileString() {
+        return getLoai() + "|" + getMa() + "|" + DocGhiFile.maHoa(getTen()) + "|"
+                + (ngaySinh == null ? "" : ngaySinh.toString()) + "|"
+                + Math.round(giaBan) + "|" + soLuong + "|" + trangThai.name() + "|";
+    }
+
+    /** Đọc một dòng văn bản thành đối tượng thú cưng (Chó, Mèo hoặc Chim). */
+    public static ThuCung fromFileString(String dong) {
+        String[] p = DocGhiFile.tach(dong);
+        if (p.length < 10) {
+            throw new IllegalArgumentException("thiếu trường dữ liệu (" + p.length + "/10)");
+        }
+        String loai = p[0];
+        String ma = p[1];
+        String ten = DocGhiFile.giaiMa(p[2]);
+        LocalDate ngaySinh = p[3].isEmpty() ? null : LocalDate.parse(p[3]);
+        double giaBan = Double.parseDouble(p[4]);
+        int soLuong = Integer.parseInt(p[5]);
+        TrangThaiThuCung trangThai = TrangThaiThuCung.valueOf(p[6]);
+
+        if (loai.equals("Chó")) {
+            return new Cho(ma, ten, ngaySinh, giaBan, soLuong, trangThai,
+                    DocGhiFile.giaiMa(p[7]), DocGhiFile.giaiMa(p[8]), Boolean.parseBoolean(p[9]));
+        }
+        if (loai.equals("Mèo")) {
+            return new Meo(ma, ten, ngaySinh, giaBan, soLuong, trangThai,
+                    DocGhiFile.giaiMa(p[7]), Boolean.parseBoolean(p[8]), Boolean.parseBoolean(p[9]));
+        }
+        if (loai.equals("Chim")) {
+            return new Chim(ma, ten, ngaySinh, giaBan, soLuong, trangThai,
+                    DocGhiFile.giaiMa(p[7]), Boolean.parseBoolean(p[8]), DocGhiFile.giaiMa(p[9]));
+        }
+        throw new IllegalArgumentException("loại thú cưng không hợp lệ: " + loai);
+    }
 
     public int getTuoiThang() {
         return ngaySinh == null ? 0 : (int) ChronoUnit.MONTHS.between(ngaySinh, LocalDate.now());

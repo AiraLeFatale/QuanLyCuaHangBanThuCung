@@ -2,7 +2,6 @@ package menu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import entity.DichVu;
 import entity.DichVuCatTia;
@@ -38,18 +37,27 @@ public class MenuDichVu {
 
             int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 6);
             switch (chon) {
-                case 1 -> {
+                case 1:
                     xemDanhSach(cuaHang.getDichVu().tatCa(), "Danh sách dịch vụ");
                     NhapXuat.tamDung();
-                }
-                case 2 -> them();
-                case 3 -> capNhat();
-                case 4 -> xoa();
-                case 5 -> timKiem();
-                case 6 -> sapXep();
-                default -> {
+                    break;
+                case 2:
+                    them();
+                    break;
+                case 3:
+                    capNhat();
+                    break;
+                case 4:
+                    xoa();
+                    break;
+                case 5:
+                    timKiem();
+                    break;
+                case 6:
+                    sapXep();
+                    break;
+                default:
                     return;
-                }
             }
         }
     }
@@ -88,13 +96,12 @@ public class MenuDichVu {
     private void capNhat() {
         NhapXuat.muc("Cập nhật dịch vụ");
         String ma = NhapXuat.docBatBuoc("Mã dịch vụ: ", "Mã dịch vụ");
-        Optional<DichVu> tim = cuaHang.getDichVu().tim(ma);
-        if (tim.isEmpty()) {
+        DichVu cu = cuaHang.getDichVu().tim(ma);
+        if (cu == null) {
             NhapXuat.loi("Không tìm thấy dịch vụ " + ma);
             NhapXuat.tamDung();
             return;
         }
-        DichVu cu = tim.get();
         System.out.println("Hiện tại: " + cu.getTen() + " - " + cu.getLoai()
                 + " - " + Tien.dinhDang(cu.getGiaBan()));
         System.out.println("(Để trống ở mỗi câu hỏi là giữ nguyên giá trị cũ)");
@@ -112,13 +119,12 @@ public class MenuDichVu {
     private void xoa() {
         NhapXuat.muc("Xóa dịch vụ");
         String ma = NhapXuat.docBatBuoc("Mã dịch vụ: ", "Mã dịch vụ");
-        Optional<DichVu> tim = cuaHang.getDichVu().tim(ma);
-        if (tim.isEmpty()) {
+        DichVu dv = cuaHang.getDichVu().tim(ma);
+        if (dv == null) {
             NhapXuat.loi("Không tìm thấy dịch vụ " + ma);
             NhapXuat.tamDung();
             return;
         }
-        DichVu dv = tim.get();
         System.out.println("Sẽ xóa: " + dv.getMa() + " - " + dv.getTen() + " (" + dv.getLoai() + ")");
         if (!NhapXuat.xacNhan("Xác nhận xóa?")) {
             NhapXuat.thongBao("Đã hủy thao tác");
@@ -140,12 +146,21 @@ public class MenuDichVu {
         String tuKhoa = NhapXuat.doc("Từ khóa (mã / tên / đặc điểm), bỏ trống để bỏ qua: ");
         System.out.println("  Lọc loại: 0-Tất cả  1-Tắm & sấy  2-Cắt tỉa  3-Tiêm phòng");
         int chon = NhapXuat.docSoNguyen("  Chọn: ", 0, 3);
-        String loai = switch (chon) {
-            case 1 -> "Tắm & sấy";
-            case 2 -> "Cắt tỉa";
-            case 3 -> "Tiêm phòng";
-            default -> "Tất cả";
-        };
+        String loai;
+        switch (chon) {
+            case 1:
+                loai = "Tắm & sấy";
+                break;
+            case 2:
+                loai = "Cắt tỉa";
+                break;
+            case 3:
+                loai = "Tiêm phòng";
+                break;
+            default:
+                loai = "Tất cả";
+                break;
+        }
         xemDanhSach(cuaHang.getDichVu().timKiem(tuKhoa, loai), "Kết quả tìm kiếm");
         NhapXuat.tamDung();
     }
@@ -166,37 +181,35 @@ public class MenuDichVu {
         String loai = hoiLoai(coDuLieu == null ? null : coDuLieu.getLoai());
         boolean cungLoai = coDuLieu != null && coDuLieu.getLoai().equals(loai);
 
-        return switch (loai) {
-            case "Tắm & sấy" -> {
-                DichVuTam cu = cungLoai ? (DichVuTam) coDuLieu : null;
-                String kichThuoc = NhapXuat.chuoi("  Kích thước thú cưng (Nhỏ/Vừa/Lớn)",
-                        cu == null ? null : cu.getKichThuoc());
-                yield new DichVuTam(ma, ten, giaBan, phut, kichThuoc);
-            }
-            case "Cắt tỉa" -> {
-                DichVuCatTia cu = cungLoai ? (DichVuCatTia) coDuLieu : null;
-                String kieuLong = NhapXuat.chuoi("  Kiểu lông",
-                        cu == null ? null : cu.getKieuLong());
-                yield new DichVuCatTia(ma, ten, giaBan, phut, kieuLong);
-            }
-            default -> {
-                DichVuTiemPhong cu = cungLoai ? (DichVuTiemPhong) coDuLieu : null;
-                String vacXin = NhapXuat.chuoi("  Loại vắc-xin",
-                        cu == null ? null : cu.getLoaiVacXin());
-                yield new DichVuTiemPhong(ma, ten, giaBan, phut, vacXin);
-            }
-        };
+        if (loai.equals("Tắm & sấy")) {
+            DichVuTam cu = cungLoai ? (DichVuTam) coDuLieu : null;
+            String kichThuoc = NhapXuat.chuoi("  Kích thước thú cưng (Nhỏ/Vừa/Lớn)",
+                    cu == null ? null : cu.getKichThuoc());
+            return new DichVuTam(ma, ten, giaBan, phut, kichThuoc);
+        }
+        if (loai.equals("Cắt tỉa")) {
+            DichVuCatTia cu = cungLoai ? (DichVuCatTia) coDuLieu : null;
+            String kieuLong = NhapXuat.chuoi("  Kiểu lông", cu == null ? null : cu.getKieuLong());
+            return new DichVuCatTia(ma, ten, giaBan, phut, kieuLong);
+        }
+        DichVuTiemPhong cu = cungLoai ? (DichVuTiemPhong) coDuLieu : null;
+        String vacXin = NhapXuat.chuoi("  Loại vắc-xin", cu == null ? null : cu.getLoaiVacXin());
+        return new DichVuTiemPhong(ma, ten, giaBan, phut, vacXin);
     }
 
     private String hoiLoai(String hienTai) {
         System.out.println("  Loại: 1-Tắm & sấy  2-Cắt tỉa  3-Tiêm phòng"
                 + (hienTai == null ? "" : "  0-Giữ nguyên (" + hienTai + ")"));
         int chon = NhapXuat.docSoNguyen("  Chọn loại: ", hienTai == null ? 1 : 0, 3);
-        return switch (chon) {
-            case 0 -> hienTai;
-            case 1 -> "Tắm & sấy";
-            case 2 -> "Cắt tỉa";
-            default -> "Tiêm phòng";
-        };
+        switch (chon) {
+            case 0:
+                return hienTai;
+            case 1:
+                return "Tắm & sấy";
+            case 2:
+                return "Cắt tỉa";
+            default:
+                return "Tiêm phòng";
+        }
     }
 }

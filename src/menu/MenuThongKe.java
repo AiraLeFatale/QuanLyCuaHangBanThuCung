@@ -13,7 +13,6 @@ import entity.HoaDon;
 import manager.CuaHang;
 import manager.QuanLyHoaDon;
 import util.AppException;
-import util.HoaDonText;
 import util.Tien;
 import util.TrangTri;
 
@@ -39,14 +38,23 @@ public class MenuThongKe {
 
             int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 5);
             switch (chon) {
-                case 1 -> tongQuan();
-                case 2 -> banChay();
-                case 3 -> doanhThuTheoLoai();
-                case 4 -> hoaDonGanDay();
-                case 5 -> xuatBaoCao();
-                default -> {
+                case 1:
+                    tongQuan();
+                    break;
+                case 2:
+                    banChay();
+                    break;
+                case 3:
+                    doanhThuTheoLoai();
+                    break;
+                case 4:
+                    hoaDonGanDay();
+                    break;
+                case 5:
+                    xuatBaoCao();
+                    break;
+                default:
                     return;
-                }
             }
         }
     }
@@ -143,7 +151,7 @@ public class MenuThongKe {
                     cuaHang.tongGiaTriTonKho(),
                     hoaDon.doanhThuTheoLoai(),
                     hoaDon.topBanChay(10));
-            Files.writeString(tep, noiDung, StandardCharsets.UTF_8);
+            Files.write(tep, noiDung.getBytes(StandardCharsets.UTF_8));
             NhapXuat.thongBao("Đã xuất báo cáo: " + tep.toAbsolutePath());
         } catch (IOException ex) {
             NhapXuat.loi("Không ghi được báo cáo: " + ex.getMessage());

@@ -2,6 +2,8 @@ package entity;
 
 import java.time.LocalDate;
 
+import util.DocGhiFile;
+
 /** Chó. Đặc điểm riêng: giống, kích cỡ, tình trạng tiêm phòng. */
 public class Cho extends ThuCung {
 
@@ -50,6 +52,12 @@ public class Cho extends ThuCung {
     public String getDacDiem() {
         return "Giống " + giong + ", cỡ " + kichThuoc.toLowerCase()
                 + ", " + (daTiemPhong ? "đã tiêm phòng" : "chưa tiêm phòng");
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(giong) + "|"
+                + DocGhiFile.maHoa(kichThuoc) + "|" + daTiemPhong;
     }
 
     @Override

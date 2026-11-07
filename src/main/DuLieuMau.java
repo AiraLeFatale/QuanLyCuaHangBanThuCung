@@ -16,6 +16,11 @@ import entity.ThucAn;
 import entity.Thuoc;
 import entity.TrangThaiThuCung;
 import manager.CuaHang;
+import manager.QuanLyDichVu;
+import manager.QuanLyKhachHang;
+import manager.QuanLyNhanVien;
+import manager.QuanLySanPham;
+import manager.QuanLyThuCung;
 
 
 /**
@@ -47,7 +52,7 @@ public final class DuLieuMau {
     }
 
     private static void napThuCung(CuaHang ch) {
-        var ds = ch.getThuCung();
+        QuanLyThuCung ds = ch.getThuCung();
         ds.them(new Cho("TC001", "Milu", LocalDate.of(2025, 3, 12), 6_500_000, 2,
                 TrangThaiThuCung.CON_BAN, "Poodle", "Nhỏ", true));
         ds.them(new Cho("TC002", "Bông", LocalDate.of(2024, 11, 2), 12_000_000, 1,
@@ -71,7 +76,7 @@ public final class DuLieuMau {
     }
 
     private static void napSanPham(CuaHang ch) {
-        var ds = ch.getSanPham();
+        QuanLySanPham ds = ch.getSanPham();
         ds.them(new ThucAn("SP001", "Hạt Royal Canin", 320_000, 20,
                 "Chó", 2.0, LocalDate.of(2027, 5, 30)));
         ds.them(new ThucAn("SP002", "Pate Whiskas", 25_000, 40,
@@ -87,7 +92,7 @@ public final class DuLieuMau {
     }
 
     private static void napDichVu(CuaHang ch) {
-        var ds = ch.getDichVu();
+        QuanLyDichVu ds = ch.getDichVu();
         ds.them(new DichVuTam("DV001", "Tắm sấy chó nhỏ", 150_000, 45, "Nhỏ"));
         ds.them(new DichVuTam("DV002", "Tắm sấy chó lớn", 250_000, 60, "Lớn"));
         ds.them(new DichVuCatTia("DV003", "Cắt tỉa tạo kiểu", 200_000, 50, "Tạo kiểu"));
@@ -95,7 +100,7 @@ public final class DuLieuMau {
     }
 
     private static void napKhachHang(CuaHang ch) {
-        var ds = ch.getKhachHang();
+        QuanLyKhachHang ds = ch.getKhachHang();
         ds.them(new KhachHang("KH001", "Nguyễn Văn An", GioiTinh.NAM, LocalDate.of(1995, 4, 12),
                 "0901234567", "12 Lê Lợi, Quận 1, TP.HCM", 520));
         ds.them(new KhachHang("KH002", "Trần Thị Bình", GioiTinh.NU, LocalDate.of(1998, 9, 3),
@@ -107,7 +112,7 @@ public final class DuLieuMau {
     }
 
     private static void napNhanVien(CuaHang ch) {
-        var ds = ch.getNhanVien();
+        QuanLyNhanVien ds = ch.getNhanVien();
         ds.them(new NhanVien("NV001", "Trần Quốc Bảo", GioiTinh.NAM, LocalDate.of(1990, 2, 8),
                 "0903111222", "5 Pasteur, Quận 3, TP.HCM", "Quản lý", 15_000_000, LocalDate.of(2020, 5, 2)));
         ds.them(new NhanVien("NV002", "Nguyễn Thị Hoa", GioiTinh.NU, LocalDate.of(1997, 7, 19),

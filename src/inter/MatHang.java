@@ -30,7 +30,6 @@ public interface MatHang extends CoMaKhoa {
     /** Mô tả các thuộc tính riêng để hiển thị trong bảng. */
     String getDacDiem();
 
-    default boolean quanLyTonKho() {
-        return getSoLuongTon() >= 0;
-    }
+    /** true nếu mặt hàng có tồn kho (thú cưng, sản phẩm); false với dịch vụ. */
+    boolean quanLyTonKho();
 }

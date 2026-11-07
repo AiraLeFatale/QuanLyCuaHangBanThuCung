@@ -3,6 +3,7 @@ package util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.regex.Pattern;
 
 
@@ -13,7 +14,9 @@ import java.util.regex.Pattern;
 public final class Validator {
 
     private static final Pattern SO_DIEN_THOAI = Pattern.compile("^0\\d{9}$");
-    private static final DateTimeFormatter NGAY_VIET = DateTimeFormatter.ofPattern("d/M/yyyy");
+    private static final DateTimeFormatter NGAY_VIET = DateTimeFormatter
+            .ofPattern("d/M/uuuu")
+            .withResolverStyle(ResolverStyle.STRICT);
 
     private Validator() {
     }
@@ -56,6 +59,15 @@ public final class Validator {
     }
 
     public static LocalDate ngay(String giaTri, String tenTruong, boolean choPhepRong) {
+        return ngay(giaTri, tenTruong, choPhepRong, false);
+    }
+
+    /**
+     * Kiểm tra ngày; choPhepTuongLai = true dùng cho hạn sử dụng, ngày dự kiến...
+     * Các trường như ngày sinh, ngày vào làm vẫn dùng bản mặc định để chặn ngày tương lai.
+     */
+    public static LocalDate ngay(String giaTri, String tenTruong, boolean choPhepRong,
+                                 boolean choPhepTuongLai) {
         String s = giaTri == null ? "" : giaTri.trim();
         if (s.isEmpty()) {
             if (choPhepRong) {
@@ -69,7 +81,7 @@ public final class Validator {
         } catch (DateTimeParseException ex) {
             throw new AppException.DuLieuKhongHopLe(tenTruong + " phải có dạng yyyy-MM-dd hoặc dd/MM/yyyy");
         }
-        if (ngay.isAfter(LocalDate.now())) {
+        if (!choPhepTuongLai && ngay.isAfter(LocalDate.now())) {
             throw new AppException.DuLieuKhongHopLe(tenTruong + " không được ở tương lai");
         }
         return ngay;

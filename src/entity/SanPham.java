@@ -1,9 +1,11 @@
 package entity;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 import inter.MatHang;
 import util.AppException;
+import util.DocGhiFile;
 
 
 /**
@@ -97,6 +99,46 @@ public abstract class SanPham implements MatHang {
 
     @Override
     public abstract String getDacDiem();
+
+    @Override
+    public boolean quanLyTonKho() {
+        return true;
+    }
+
+    /** Phần dữ liệu chung; lớp con nối thêm thuộc tính riêng. */
+    public String toFileString() {
+        return getLoai() + "|" + getMa() + "|" + DocGhiFile.maHoa(getTen()) + "|"
+                + Math.round(giaBan) + "|" + soLuong + "|";
+    }
+
+    /** Đọc một dòng văn bản thành sản phẩm (Thức ăn, Thuốc hoặc Phụ kiện). */
+    public static SanPham fromFileString(String dong) {
+        String[] p = DocGhiFile.tach(dong);
+        if (p.length < 6) {
+            throw new IllegalArgumentException("thiếu trường dữ liệu (" + p.length + "/6)");
+        }
+        String loai = p[0];
+        String ma = p[1];
+        String ten = DocGhiFile.giaiMa(p[2]);
+        double gia = Double.parseDouble(p[3]);
+        int soLuong = Integer.parseInt(p[4]);
+
+        if (loai.equals("Thức ăn")) {
+            double khoiLuong = p.length > 6 ? Double.parseDouble(p[6]) : 0;
+            LocalDate hanSuDung = p.length > 7 && !p[7].isEmpty() ? LocalDate.parse(p[7]) : null;
+            return new ThucAn(ma, ten, gia, soLuong, DocGhiFile.giaiMa(p[5]), khoiLuong, hanSuDung);
+        }
+        if (loai.equals("Thuốc")) {
+            LocalDate hanSuDung = p.length > 6 && !p[6].isEmpty() ? LocalDate.parse(p[6]) : null;
+            boolean canKeDon = p.length > 7 && Boolean.parseBoolean(p[7]);
+            return new Thuoc(ma, ten, gia, soLuong, DocGhiFile.giaiMa(p[5]), hanSuDung, canKeDon);
+        }
+        if (loai.equals("Phụ kiện")) {
+            String mauSac = p.length > 6 ? DocGhiFile.giaiMa(p[6]) : "";
+            return new PhuKien(ma, ten, gia, soLuong, DocGhiFile.giaiMa(p[5]), mauSac);
+        }
+        throw new IllegalArgumentException("loại sản phẩm không hợp lệ: " + loai);
+    }
 
     @Override
     public String toString() {

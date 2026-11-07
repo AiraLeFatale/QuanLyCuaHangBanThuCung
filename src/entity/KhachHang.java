@@ -2,6 +2,8 @@ package entity;
 
 import java.time.LocalDate;
 
+import util.DocGhiFile;
+
 /**
  * Khách hàng của cửa hàng. Hạng và chiết khấu không nhập tay mà suy ra từ điểm tích lũy.
  */
@@ -51,6 +53,24 @@ public class KhachHang extends Nguoi {
     @Override
     public String getLoaiNguoi() {
         return "Khách hàng";
+    }
+
+    /** Định dạng: ma|hoTen|gioiTinh|ngaySinh|soDienThoai|diaChi|diemTichLuy */
+    public String toFileString() {
+        return getMa() + "|" + DocGhiFile.maHoa(getHoTen()) + "|" + getGioiTinh().name() + "|"
+                + (getNgaySinh() == null ? "" : getNgaySinh().toString()) + "|"
+                + DocGhiFile.maHoa(getSoDienThoai()) + "|" + DocGhiFile.maHoa(getDiaChi()) + "|"
+                + diemTichLuy;
+    }
+
+    public static KhachHang fromFileString(String dong) {
+        String[] p = DocGhiFile.tach(dong);
+        if (p.length < 7) {
+            throw new IllegalArgumentException("thiếu trường dữ liệu (" + p.length + "/7)");
+        }
+        LocalDate ngaySinh = p[3].isEmpty() ? null : LocalDate.parse(p[3]);
+        return new KhachHang(p[0], DocGhiFile.giaiMa(p[1]), GioiTinh.tuChuoi(p[2]), ngaySinh,
+                DocGhiFile.giaiMa(p[4]), DocGhiFile.giaiMa(p[5]), Integer.parseInt(p[6]));
     }
 
     @Override

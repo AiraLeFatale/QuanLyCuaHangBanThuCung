@@ -40,16 +40,36 @@ public class MenuChinh {
                 int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 9);
                 try {
                     switch (chon) {
-                        case 1 -> menuThuCung.chay();
-                        case 2 -> menuSanPham.chay();
-                        case 3 -> menuDichVu.chay();
-                        case 4 -> menuKhachHang.chay();
-                        case 5 -> menuNhanVien.chay();
-                        case 6 -> menuBanHang.chay();
-                        case 7 -> menuHoaDon.chay();
-                        case 8 -> menuThongKe.chay();
-                        case 9 -> luuDuLieu();
-                        default -> thoat = true;
+                        case 1:
+                            menuThuCung.chay();
+                            break;
+                        case 2:
+                            menuSanPham.chay();
+                            break;
+                        case 3:
+                            menuDichVu.chay();
+                            break;
+                        case 4:
+                            menuKhachHang.chay();
+                            break;
+                        case 5:
+                            menuNhanVien.chay();
+                            break;
+                        case 6:
+                            menuBanHang.chay();
+                            break;
+                        case 7:
+                            menuHoaDon.chay();
+                            break;
+                        case 8:
+                            menuThongKe.chay();
+                            break;
+                        case 9:
+                            luuDuLieu();
+                            break;
+                        default:
+                            thoat = true;
+                            break;
                     }
                 } catch (AppException ex) {
                     NhapXuat.loi(ex.getMessage());
@@ -61,7 +81,8 @@ public class MenuChinh {
         } finally {
             try {
                 cuaHang.luuTatCa();
-                System.out.println("Đã lưu dữ liệu vào " + cuaHang.getThuMucDuLieu().toAbsolutePath());
+                System.out.println("Đã lưu dữ liệu vào "
+                        + java.nio.file.Paths.get(cuaHang.getThuMucDuLieu()).toAbsolutePath());
             } catch (AppException ex) {
                 NhapXuat.loi("Không lưu được dữ liệu: " + ex.getMessage());
             }
@@ -95,7 +116,8 @@ public class MenuChinh {
     private void luuDuLieu() {
         try {
             cuaHang.luuTatCa();
-            NhapXuat.thongBao("Đã lưu toàn bộ dữ liệu vào " + cuaHang.getThuMucDuLieu().toAbsolutePath());
+            NhapXuat.thongBao("Đã lưu toàn bộ dữ liệu vào "
+                    + java.nio.file.Paths.get(cuaHang.getThuMucDuLieu()).toAbsolutePath());
         } catch (AppException ex) {
             NhapXuat.loi(ex.getMessage());
         }

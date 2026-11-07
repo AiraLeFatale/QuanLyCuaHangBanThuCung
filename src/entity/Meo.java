@@ -2,6 +2,8 @@ package entity;
 
 import java.time.LocalDate;
 
+import util.DocGhiFile;
+
 /** Mèo. Đặc điểm riêng: giống, lông dài hay ngắn, đã triệt sản chưa. */
 public class Meo extends ThuCung {
 
@@ -50,6 +52,12 @@ public class Meo extends ThuCung {
     public String getDacDiem() {
         return "Giống " + giong + ", lông " + (daiLong ? "dài" : "ngắn")
                 + (daTrietSan ? ", đã triệt sản" : ", chưa triệt sản");
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(giong) + "|"
+                + daiLong + "|" + daTrietSan;
     }
 
     @Override

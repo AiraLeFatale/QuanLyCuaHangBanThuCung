@@ -2,7 +2,6 @@ package menu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import entity.GioiTinh;
 import entity.KhachHang;
@@ -37,21 +36,29 @@ public class MenuKhachHang {
 
             int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 6);
             switch (chon) {
-                case 1 -> {
+                case 1:
                     xemDanhSach(cuaHang.getKhachHang().tatCa(), "Danh sách khách hàng");
                     NhapXuat.tamDung();
-                }
-                case 2 -> them();
-                case 3 -> capNhat();
-                case 4 -> xoa();
-                case 5 -> timKiem();
-                case 6 -> {
-                    xemDanhSach(cuaHang.getKhachHang().sapXepTheoDiem(), "Khách hàng theo điểm tích lũy");
+                    break;
+                case 2:
+                    them();
+                    break;
+                case 3:
+                    capNhat();
+                    break;
+                case 4:
+                    xoa();
+                    break;
+                case 5:
+                    timKiem();
+                    break;
+                case 6:
+                    xemDanhSach(cuaHang.getKhachHang().sapXepTheoDiem(),
+                            "Khách hàng theo điểm tích lũy");
                     NhapXuat.tamDung();
-                }
-                default -> {
+                    break;
+                default:
                     return;
-                }
             }
         }
     }
@@ -100,13 +107,12 @@ public class MenuKhachHang {
     private void capNhat() {
         NhapXuat.muc("Cập nhật khách hàng");
         String ma = NhapXuat.docBatBuoc("Mã khách hàng: ", "Mã khách hàng");
-        Optional<KhachHang> tim = cuaHang.getKhachHang().tim(ma);
-        if (tim.isEmpty()) {
+        KhachHang cu = cuaHang.getKhachHang().tim(ma);
+        if (cu == null) {
             NhapXuat.loi("Không tìm thấy khách hàng " + ma);
             NhapXuat.tamDung();
             return;
         }
-        KhachHang cu = tim.get();
         System.out.println("Hiện tại: " + cu.getHoTen() + " - " + cu.getHang().getNhan()
                 + " - " + cu.getDiemTichLuy() + " điểm");
         System.out.println("(Để trống ở mỗi câu hỏi là giữ nguyên giá trị cũ)");
@@ -132,13 +138,12 @@ public class MenuKhachHang {
     private void xoa() {
         NhapXuat.muc("Xóa khách hàng");
         String ma = NhapXuat.docBatBuoc("Mã khách hàng: ", "Mã khách hàng");
-        Optional<KhachHang> tim = cuaHang.getKhachHang().tim(ma);
-        if (tim.isEmpty()) {
+        KhachHang kh = cuaHang.getKhachHang().tim(ma);
+        if (kh == null) {
             NhapXuat.loi("Không tìm thấy khách hàng " + ma);
             NhapXuat.tamDung();
             return;
         }
-        KhachHang kh = tim.get();
         System.out.println("Sẽ xóa: " + kh.getMa() + " - " + kh.getHoTen());
         if (!NhapXuat.xacNhan("Xác nhận xóa?")) {
             NhapXuat.thongBao("Đã hủy thao tác");
@@ -165,11 +170,14 @@ public class MenuKhachHang {
     private GioiTinh hoiGioiTinh(GioiTinh hienTai) {
         System.out.println("  Giới tính: 1-Nam  2-Nữ  3-Khác  (hiện tại: " + hienTai.getNhan() + ")");
         int chon = NhapXuat.docSoNguyen("  Chọn: ", 1, 3);
-        return switch (chon) {
-            case 1 -> GioiTinh.NAM;
-            case 2 -> GioiTinh.NU;
-            default -> GioiTinh.KHAC;
-        };
+        switch (chon) {
+            case 1:
+                return GioiTinh.NAM;
+            case 2:
+                return GioiTinh.NU;
+            default:
+                return GioiTinh.KHAC;
+        }
     }
 
     private String hoiDienThoai(String hienTai) {
@@ -184,12 +192,10 @@ public class MenuKhachHang {
     }
 
     private void kiemTraTrungDienThoai(KhachHang kh) {
-        Optional<KhachHang> trung = cuaHang.getKhachHang()
-                .timTheoDienThoai(kh.getSoDienThoai())
-                .filter(co -> !co.getMa().equalsIgnoreCase(kh.getMa()));
-        if (trung.isPresent()) {
+        KhachHang trung = cuaHang.getKhachHang().timTheoDienThoai(kh.getSoDienThoai());
+        if (trung != null && !trung.getMa().equalsIgnoreCase(kh.getMa())) {
             throw new AppException.NghiepVu("Số điện thoại đã thuộc về khách hàng "
-                    + trung.get().getMa() + " - " + trung.get().getHoTen());
+                    + trung.getMa() + " - " + trung.getHoTen());
         }
     }
 }

@@ -1,5 +1,7 @@
 package entity;
 
+import util.DocGhiFile;
+
 /** Dịch vụ cắt tỉa lông, tạo kiểu cho thú cưng. */
 public class DichVuCatTia extends DichVu {
 
@@ -26,5 +28,10 @@ public class DichVuCatTia extends DichVu {
     @Override
     public String getDacDiem() {
         return "Kiểu " + kieuLong + ", khoảng " + getThoiGianPhut() + " phút";
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(kieuLong);
     }
 }

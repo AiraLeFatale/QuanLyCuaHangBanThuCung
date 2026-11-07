@@ -1,5 +1,7 @@
 package entity;
 
+import util.DocGhiFile;
+
 /** Phụ kiện cho thú cưng: chất liệu và màu sắc. */
 public class PhuKien extends SanPham {
 
@@ -37,5 +39,11 @@ public class PhuKien extends SanPham {
     @Override
     public String getDacDiem() {
         return "Chất liệu " + chatLieu + ", màu " + mauSac;
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(chatLieu) + "|"
+                + DocGhiFile.maHoa(mauSac);
     }
 }

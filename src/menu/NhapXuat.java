@@ -18,15 +18,24 @@ public final class NhapXuat {
 
     private static final Scanner SCANNER = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8);
 
+    /** Lặp một chuỗi n lần (thay cho String.repeat của Java 11). */
+    private static String lap(String chuoi, int soLan) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < soLan; i++) {
+            sb.append(chuoi);
+        }
+        return sb.toString();
+    }
+
     public static void dongKe() {
-        System.out.println("-".repeat(96));
+        System.out.println(lap("-", 96));
     }
 
     public static void tieuDe(String tieuDe) {
         System.out.println();
-        System.out.println("=".repeat(96));
+        System.out.println(lap("=", 96));
         System.out.println("  " + tieuDe.toUpperCase(Locale.ROOT));
-        System.out.println("=".repeat(96));
+        System.out.println(lap("=", 96));
     }
 
     public static void muc(String tieuDe) {
@@ -157,14 +166,14 @@ public final class NhapXuat {
 
     /** Hỏi chuỗi; nếu có giá trị cũ thì để trống là giữ nguyên. */
     public static String chuoi(String nhan, String giaTriCu) {
-        if (giaTriCu == null || giaTriCu.isBlank()) {
+        if (giaTriCu == null || giaTriCu.trim().isEmpty()) {
             return NhapXuat.docBatBuoc(nhan + ": ", nhan);
         }
         return NhapXuat.docMacDinh(nhan + " [" + giaTriCu + "]: ", giaTriCu);
     }
 
     public static String chuoiTuyChon(String nhan, String giaTriCu) {
-        String s = NhapXuat.doc(nhan + (giaTriCu == null || giaTriCu.isBlank()
+        String s = NhapXuat.doc(nhan + (giaTriCu == null || giaTriCu.trim().isEmpty()
                 ? " (có thể bỏ trống): "
                 : " [" + giaTriCu + "]: "));
         if (s.isEmpty()) {
@@ -215,6 +224,15 @@ public final class NhapXuat {
     }
 
     public static LocalDate ngay(String nhan, LocalDate giaTriCu) {
+        return hoiNgay(nhan, giaTriCu, false);
+    }
+
+    /** Như {@link #ngay(String, LocalDate)} nhưng cho phép ngày ở tương lai (hạn sử dụng...). */
+    public static LocalDate ngayTuongLai(String nhan, LocalDate giaTriCu) {
+        return hoiNgay(nhan, giaTriCu, true);
+    }
+
+    private static LocalDate hoiNgay(String nhan, LocalDate giaTriCu, boolean choPhepTuongLai) {
         while (true) {
             String goiY = giaTriCu == null
                     ? nhan + " (dd/MM/yyyy, bỏ trống nếu không rõ): "
@@ -224,7 +242,7 @@ public final class NhapXuat {
                 return giaTriCu;
             }
             try {
-                return util.Validator.ngay(s, nhan, true);
+                return util.Validator.ngay(s, nhan, true, choPhepTuongLai);
             } catch (util.AppException ex) {
                 NhapXuat.loi(ex.getMessage());
             }

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import inter.MatHang;
 import util.AppException;
+import util.DocGhiFile;
 
 
 /**
@@ -85,6 +86,42 @@ public abstract class DichVu implements MatHang {
 
     @Override
     public abstract String getDacDiem();
+
+    @Override
+    public boolean quanLyTonKho() {
+        return false;
+    }
+
+    /** Phần dữ liệu chung; lớp con nối thêm thuộc tính riêng. */
+    public String toFileString() {
+        return getLoai() + "|" + getMa() + "|" + DocGhiFile.maHoa(getTen()) + "|"
+                + Math.round(giaBan) + "|" + thoiGianPhut + "|";
+    }
+
+    /** Đọc một dòng văn bản thành dịch vụ (Tắm & sấy, Cắt tỉa hoặc Tiêm phòng). */
+    public static DichVu fromFileString(String dong) {
+        String[] p = DocGhiFile.tach(dong);
+        if (p.length < 6) {
+            throw new IllegalArgumentException("thiếu trường dữ liệu (" + p.length + "/6)");
+        }
+        String loai = p[0];
+        String ma = p[1];
+        String ten = DocGhiFile.giaiMa(p[2]);
+        double gia = Double.parseDouble(p[3]);
+        int thoiGian = Integer.parseInt(p[4]);
+        String rieng = DocGhiFile.giaiMa(p[5]);
+
+        if (loai.equals("Tắm & sấy")) {
+            return new DichVuTam(ma, ten, gia, thoiGian, rieng);
+        }
+        if (loai.equals("Cắt tỉa")) {
+            return new DichVuCatTia(ma, ten, gia, thoiGian, rieng);
+        }
+        if (loai.equals("Tiêm phòng")) {
+            return new DichVuTiemPhong(ma, ten, gia, thoiGian, rieng);
+        }
+        throw new IllegalArgumentException("loại dịch vụ không hợp lệ: " + loai);
+    }
 
     @Override
     public String toString() {

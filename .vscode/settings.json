@@ -1,0 +1,27 @@
+{
+  "files.encoding": "utf8",
+  "files.autoGuessEncoding": true,
+
+  "terminal.integrated.defaultProfile.windows": "Command Prompt (UTF-8)",
+  "terminal.integrated.profiles.windows": {
+    "Command Prompt (UTF-8)": {
+      "path": "C:\\Windows\\System32\\cmd.exe",
+      "args": ["/k", "chcp 65001>nul"]
+    },
+    "PowerShell (UTF-8)": {
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "$OutputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new(); chcp 65001>nul"
+      ]
+    }
+  },
+
+  "terminal.integrated.fontFamily": "'Cascadia Mono', 'Cascadia Code', Consolas, 'Courier New', monospace",
+
+  "java.debug.settings.console": "integratedTerminal",
+  "java.debug.settings.vmArgs": "-Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -Dstdin.encoding=UTF-8",
+
+  "code-runner.runInTerminal": true
+}

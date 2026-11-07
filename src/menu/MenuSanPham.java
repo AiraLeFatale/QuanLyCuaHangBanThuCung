@@ -3,7 +3,6 @@ package menu;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import entity.PhuKien;
 import entity.SanPham;
@@ -12,6 +11,7 @@ import entity.Thuoc;
 import manager.CuaHang;
 import util.AppException;
 import util.Tien;
+import util.TrangTri;
 
 
 /** Menu quản lý sản phẩm (thức ăn, thuốc, phụ kiện) trên console. */
@@ -39,18 +39,27 @@ public class MenuSanPham {
 
             int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 6);
             switch (chon) {
-                case 1 -> {
+                case 1:
                     xemDanhSach(cuaHang.getSanPham().tatCa(), "Danh sách sản phẩm");
                     NhapXuat.tamDung();
-                }
-                case 2 -> them();
-                case 3 -> capNhat();
-                case 4 -> xoa();
-                case 5 -> timKiem();
-                case 6 -> sapXep();
-                default -> {
+                    break;
+                case 2:
+                    them();
+                    break;
+                case 3:
+                    capNhat();
+                    break;
+                case 4:
+                    xoa();
+                    break;
+                case 5:
+                    timKiem();
+                    break;
+                case 6:
+                    sapXep();
+                    break;
+                default:
                     return;
-                }
             }
         }
     }
@@ -89,13 +98,12 @@ public class MenuSanPham {
     private void capNhat() {
         NhapXuat.muc("Cập nhật sản phẩm");
         String ma = NhapXuat.docBatBuoc("Mã sản phẩm: ", "Mã sản phẩm");
-        Optional<SanPham> tim = cuaHang.getSanPham().tim(ma);
-        if (tim.isEmpty()) {
+        SanPham cu = cuaHang.getSanPham().tim(ma);
+        if (cu == null) {
             NhapXuat.loi("Không tìm thấy sản phẩm " + ma);
             NhapXuat.tamDung();
             return;
         }
-        SanPham cu = tim.get();
         System.out.println("Hiện tại: " + cu.getTen() + " - " + cu.getLoai()
                 + " - " + Tien.dinhDang(cu.getGiaBan()) + " - SL " + cu.getSoLuong());
         System.out.println("(Để trống ở mỗi câu hỏi là giữ nguyên giá trị cũ)");
@@ -113,13 +121,12 @@ public class MenuSanPham {
     private void xoa() {
         NhapXuat.muc("Xóa sản phẩm");
         String ma = NhapXuat.docBatBuoc("Mã sản phẩm: ", "Mã sản phẩm");
-        Optional<SanPham> tim = cuaHang.getSanPham().tim(ma);
-        if (tim.isEmpty()) {
+        SanPham sp = cuaHang.getSanPham().tim(ma);
+        if (sp == null) {
             NhapXuat.loi("Không tìm thấy sản phẩm " + ma);
             NhapXuat.tamDung();
             return;
         }
-        SanPham sp = tim.get();
         System.out.println("Sẽ xóa: " + sp.getMa() + " - " + sp.getTen() + " (" + sp.getLoai() + ")");
         if (!NhapXuat.xacNhan("Xác nhận xóa?")) {
             NhapXuat.thongBao("Đã hủy thao tác");
@@ -141,12 +148,21 @@ public class MenuSanPham {
         String tuKhoa = NhapXuat.doc("Từ khóa (mã / tên / đặc điểm), bỏ trống để bỏ qua: ");
         System.out.println("  Lọc loại: 0-Tất cả  1-Thức ăn  2-Thuốc  3-Phụ kiện");
         int chon = NhapXuat.docSoNguyen("  Chọn: ", 0, 3);
-        String loai = switch (chon) {
-            case 1 -> "Thức ăn";
-            case 2 -> "Thuốc";
-            case 3 -> "Phụ kiện";
-            default -> "Tất cả";
-        };
+        String loai;
+        switch (chon) {
+            case 1:
+                loai = "Thức ăn";
+                break;
+            case 2:
+                loai = "Thuốc";
+                break;
+            case 3:
+                loai = "Phụ kiện";
+                break;
+            default:
+                loai = "Tất cả";
+                break;
+        }
         xemDanhSach(cuaHang.getSanPham().timKiem(tuKhoa, loai), "Kết quả tìm kiếm");
         NhapXuat.tamDung();
     }
@@ -166,46 +182,46 @@ public class MenuSanPham {
         String loai = hoiLoai(coDuLieu == null ? null : coDuLieu.getLoai());
         boolean cungLoai = coDuLieu != null && coDuLieu.getLoai().equals(loai);
 
-        return switch (loai) {
-            case "Thức ăn" -> {
-                ThucAn cu = cungLoai ? (ThucAn) coDuLieu : null;
-                String loaiThuCung = NhapXuat.chuoi("  Dành cho (Chó/Mèo/Chim)",
-                        cu == null ? null : cu.getLoaiThuCung());
-                double kg = hoiSoThuc("  Khối lượng (kg)", cu == null ? 1 : cu.getKhoiLuongKg(), 0.1, 100);
-                LocalDate hsd = NhapXuat.ngay("  Hạn sử dụng", cu == null ? null : cu.getHanSuDung());
-                yield new ThucAn(ma, ten, giaBan, soLuong, loaiThuCung, kg, hsd);
-            }
-            case "Thuốc" -> {
-                Thuoc cu = cungLoai ? (Thuoc) coDuLieu : null;
-                String congDung = NhapXuat.chuoi("  Công dụng", cu == null ? null : cu.getCongDung());
-                LocalDate hsd = NhapXuat.ngay("  Hạn sử dụng", cu == null ? null : cu.getHanSuDung());
-                boolean keDon = NhapXuat.coKhong("  Cần kê đơn", cu != null && cu.isCanKeDon());
-                yield new Thuoc(ma, ten, giaBan, soLuong, congDung, hsd, keDon);
-            }
-            default -> {
-                PhuKien cu = cungLoai ? (PhuKien) coDuLieu : null;
-                String chatLieu = NhapXuat.chuoi("  Chất liệu", cu == null ? null : cu.getChatLieu());
-                String mauSac = NhapXuat.chuoi("  Màu sắc", cu == null ? null : cu.getMauSac());
-                yield new PhuKien(ma, ten, giaBan, soLuong, chatLieu, mauSac);
-            }
-        };
+        if (loai.equals("Thức ăn")) {
+            ThucAn cu = cungLoai ? (ThucAn) coDuLieu : null;
+            String loaiThuCung = NhapXuat.chuoi("  Dành cho (Chó/Mèo/Chim)",
+                    cu == null ? null : cu.getLoaiThuCung());
+            double kg = hoiSoThuc("  Khối lượng (kg)", cu == null ? 1 : cu.getKhoiLuongKg(), 0.1, 100);
+            LocalDate hsd = NhapXuat.ngayTuongLai("  Hạn sử dụng", cu == null ? null : cu.getHanSuDung());
+            return new ThucAn(ma, ten, giaBan, soLuong, loaiThuCung, kg, hsd);
+        }
+        if (loai.equals("Thuốc")) {
+            Thuoc cu = cungLoai ? (Thuoc) coDuLieu : null;
+            String congDung = NhapXuat.chuoi("  Công dụng", cu == null ? null : cu.getCongDung());
+            LocalDate hsd = NhapXuat.ngayTuongLai("  Hạn sử dụng", cu == null ? null : cu.getHanSuDung());
+            boolean keDon = NhapXuat.coKhong("  Cần kê đơn", cu != null && cu.isCanKeDon());
+            return new Thuoc(ma, ten, giaBan, soLuong, congDung, hsd, keDon);
+        }
+        PhuKien cu = cungLoai ? (PhuKien) coDuLieu : null;
+        String chatLieu = NhapXuat.chuoi("  Chất liệu", cu == null ? null : cu.getChatLieu());
+        String mauSac = NhapXuat.chuoi("  Màu sắc", cu == null ? null : cu.getMauSac());
+        return new PhuKien(ma, ten, giaBan, soLuong, chatLieu, mauSac);
     }
 
     private String hoiLoai(String hienTai) {
         System.out.println("  Loại: 1-Thức ăn  2-Thuốc  3-Phụ kiện"
                 + (hienTai == null ? "" : "  0-Giữ nguyên (" + hienTai + ")"));
         int chon = NhapXuat.docSoNguyen("  Chọn loại: ", hienTai == null ? 1 : 0, 3);
-        return switch (chon) {
-            case 0 -> hienTai;
-            case 1 -> "Thức ăn";
-            case 2 -> "Thuốc";
-            default -> "Phụ kiện";
-        };
+        switch (chon) {
+            case 0:
+                return hienTai;
+            case 1:
+                return "Thức ăn";
+            case 2:
+                return "Thuốc";
+            default:
+                return "Phụ kiện";
+        }
     }
 
     private double hoiSoThuc(String nhan, double hienTai, double nhoNhat, double lonNhat) {
         while (true) {
-            String s = NhapXuat.doc(nhan + " [" + TrangTriSo.hienThi(hienTai) + "]: ");
+            String s = NhapXuat.doc(nhan + " [" + TrangTri.so(hienTai) + "]: ");
             if (s.isEmpty()) {
                 return hienTai;
             }
@@ -219,19 +235,6 @@ public class MenuSanPham {
             } catch (NumberFormatException ex) {
                 NhapXuat.loi(nhan + " phải là số");
             }
-        }
-    }
-
-    /** Hiển thị số gọn cho câu hỏi nhập liệu. */
-    private static final class TrangTriSo {
-        private TrangTriSo() {
-        }
-
-        static String hienThi(double giaTri) {
-            if (giaTri == Math.rint(giaTri)) {
-                return String.valueOf((long) giaTri);
-            }
-            return String.format(java.util.Locale.ROOT, "%.2f", giaTri);
         }
     }
 }

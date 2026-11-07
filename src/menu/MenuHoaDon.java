@@ -5,13 +5,11 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import entity.HoaDon;
 import entity.NhanVien;
 import manager.CuaHang;
 import util.AppException;
-import util.HoaDonText;
 import util.Tien;
 import util.TrangTri;
 
@@ -43,21 +41,27 @@ public class MenuHoaDon {
 
             int chon = NhapXuat.docSoNguyen("Chọn: ", 0, 6);
             switch (chon) {
-                case 1 -> {
+                case 1:
                     xemDanhSach(cuaHang.getHoaDon().moiNhatTruoc(), "Danh sách hóa đơn");
                     NhapXuat.tamDung();
-                }
-                case 2 -> xemChiTiet();
-                case 3 -> menuBanHang.chay();
-                case 4 -> capNhat();
-                case 5 -> huy();
-                case 6 -> timKiem();
-                case 0 -> {
+                    break;
+                case 2:
+                    xemChiTiet();
+                    break;
+                case 3:
+                    menuBanHang.chay();
+                    break;
+                case 4:
+                    capNhat();
+                    break;
+                case 5:
+                    huy();
+                    break;
+                case 6:
+                    timKiem();
+                    break;
+                default:
                     return;
-                }
-                default -> {
-                    // không thể xảy ra vì đã giới hạn 0..6
-                }
             }
         }
     }
@@ -80,24 +84,23 @@ public class MenuHoaDon {
 
     private void xemChiTiet() {
         NhapXuat.muc("Chi tiết hóa đơn");
-        Optional<HoaDon> tim = timTheoMa();
-        if (tim.isEmpty()) {
+        HoaDon tim = timTheoMa();
+        if (tim == null) {
             NhapXuat.tamDung();
             return;
         }
         System.out.println();
-        System.out.print(HoaDonText.tao(tim.get()));
+        System.out.print(HoaDonText.tao(tim));
         NhapXuat.tamDung();
     }
 
     private void capNhat() {
         NhapXuat.muc("Cập nhật hóa đơn");
-        Optional<HoaDon> tim = timTheoMa();
-        if (tim.isEmpty()) {
+        HoaDon hd = timTheoMa();
+        if (hd == null) {
             NhapXuat.tamDung();
             return;
         }
-        HoaDon hd = tim.get();
         System.out.println("Hóa đơn " + hd.getMa() + " - nhân viên hiện tại: "
                 + hd.getTenNhanVien() + " (" + hd.getMaNhanVien() + ")");
 
@@ -120,12 +123,11 @@ public class MenuHoaDon {
 
     private void huy() {
         NhapXuat.muc("Hủy hóa đơn");
-        Optional<HoaDon> tim = timTheoMa();
-        if (tim.isEmpty()) {
+        HoaDon hd = timTheoMa();
+        if (hd == null) {
             NhapXuat.tamDung();
             return;
         }
-        HoaDon hd = tim.get();
         System.out.println("Hóa đơn " + hd.getMa() + " - " + Tien.dinhDang(hd.getTongTien())
                 + " - khách " + hd.getTenKhachHang());
         System.out.println("Hủy hóa đơn sẽ hoàn hàng vào kho và trừ "
@@ -155,21 +157,27 @@ public class MenuHoaDon {
         } catch (DateTimeParseException ignored) {
             // không phải ngày thì chỉ tìm theo chuỗi
         }
-        LocalDate ngayTim = ngay;
-        List<HoaDon> ketQua = cuaHang.getHoaDon().tatCa().stream()
-                .filter(hd -> hd.getMa().toLowerCase(Locale.ROOT).contains(khoa)
-                        || hd.getMaKhachHang().toLowerCase(Locale.ROOT).contains(khoa)
-                        || hd.getTenKhachHang().toLowerCase(Locale.ROOT).contains(khoa)
-                        || (ngayTim != null && hd.getNgayLap().toLocalDate().equals(ngayTim)))
-                .toList();
+        List<HoaDon> ketQua = new ArrayList<HoaDon>();
+        List<HoaDon> tatCa = cuaHang.getHoaDon().tatCa();
+        for (int i = 0; i < tatCa.size(); i++) {
+            HoaDon hd = tatCa.get(i);
+            boolean khopChuoi = hd.getMa().toLowerCase(Locale.ROOT).contains(khoa)
+                    || hd.getMaKhachHang().toLowerCase(Locale.ROOT).contains(khoa)
+                    || hd.getTenKhachHang().toLowerCase(Locale.ROOT).contains(khoa);
+            boolean khopNgay = ngay != null && hd.getNgayLap().toLocalDate().equals(ngay);
+            if (khopChuoi || khopNgay) {
+                ketQua.add(hd);
+            }
+        }
         xemDanhSach(ketQua, "Kết quả tìm kiếm");
         NhapXuat.tamDung();
     }
 
-    private Optional<HoaDon> timTheoMa() {
+    /** Trả về hóa đơn theo mã, hoặc null nếu không tìm thấy. */
+    private HoaDon timTheoMa() {
         String ma = NhapXuat.docBatBuoc("Mã hóa đơn: ", "Mã hóa đơn");
-        Optional<HoaDon> tim = cuaHang.getHoaDon().tim(ma);
-        if (tim.isEmpty()) {
+        HoaDon tim = cuaHang.getHoaDon().tim(ma);
+        if (tim == null) {
             NhapXuat.loi("Không tìm thấy hóa đơn " + ma);
         }
         return tim;

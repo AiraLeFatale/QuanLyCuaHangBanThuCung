@@ -3,10 +3,12 @@ out/
 bin/
 reports/
 
+# Tệp tạm khi ghi dữ liệu
+*.tmp
+
 # Tệp của IDE
 .idea/
 *.iml
-.vscode/
 .classpath
 .project
 .settings/

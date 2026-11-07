@@ -1,5 +1,7 @@
 package entity;
 
+import util.DocGhiFile;
+
 /** Dịch vụ tắm - sấy cho thú cưng, giá khác nhau theo kích cỡ. */
 public class DichVuTam extends DichVu {
 
@@ -26,5 +28,10 @@ public class DichVuTam extends DichVu {
     @Override
     public String getDacDiem() {
         return "Dành cho thú cưng cỡ " + kichThuoc + ", khoảng " + getThoiGianPhut() + " phút";
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(kichThuoc);
     }
 }

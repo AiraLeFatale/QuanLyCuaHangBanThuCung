@@ -4,7 +4,6 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
@@ -29,11 +28,12 @@ public class Main {
             return;
         }
 
-        Path thuMucDuLieu = Paths.get("data");
+        String thuMucDuLieu = "data";
         try {
             CuaHang cuaHang = new CuaHang(thuMucDuLieu);
             if (DuLieuMau.napNeuTrong(cuaHang)) {
-                System.out.println("Lần chạy đầu tiên: đã nạp dữ liệu mẫu vào " + thuMucDuLieu.toAbsolutePath());
+                System.out.println("Lần chạy đầu tiên: đã nạp dữ liệu mẫu vào "
+                        + Paths.get(thuMucDuLieu).toAbsolutePath());
             }
             new MenuChinh(cuaHang).chay();
         } catch (AppException ex) {

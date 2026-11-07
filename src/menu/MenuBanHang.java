@@ -2,7 +2,6 @@ package menu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import entity.ChiTietHoaDon;
 import entity.DichVu;
@@ -14,7 +13,6 @@ import entity.ThuCung;
 import inter.MatHang;
 import manager.CuaHang;
 import util.AppException;
-import util.HoaDonText;
 import util.Tien;
 import util.TrangTri;
 
@@ -52,8 +50,8 @@ public class MenuBanHang {
 
         xemKhachHang();
         String maKhach = NhapXuat.docBatBuoc("Mã khách hàng: ", "Mã khách hàng");
-        Optional<KhachHang> khach = cuaHang.getKhachHang().tim(maKhach);
-        if (khach.isEmpty()) {
+        KhachHang khach = cuaHang.getKhachHang().tim(maKhach);
+        if (khach == null) {
             NhapXuat.loi("Không tìm thấy khách hàng " + maKhach);
             NhapXuat.tamDung();
             return;
@@ -61,8 +59,8 @@ public class MenuBanHang {
 
         xemNhanVien();
         String maNhanVien = NhapXuat.docBatBuoc("Mã nhân viên bán: ", "Mã nhân viên");
-        Optional<NhanVien> nhanVien = cuaHang.getNhanVien().tim(maNhanVien);
-        if (nhanVien.isEmpty()) {
+        NhanVien nhanVien = cuaHang.getNhanVien().tim(maNhanVien);
+        if (nhanVien == null) {
             NhapXuat.loi("Không tìm thấy nhân viên " + maNhanVien);
             NhapXuat.tamDung();
             return;
@@ -77,12 +75,11 @@ public class MenuBanHang {
             if (maHang.isEmpty()) {
                 break;
             }
-            Optional<MatHang> tim = cuaHang.timMatHang(maHang);
-            if (tim.isEmpty()) {
+            MatHang matHang = cuaHang.timMatHang(maHang);
+            if (matHang == null) {
                 NhapXuat.loi("Không tìm thấy mặt hàng " + maHang);
                 continue;
             }
-            MatHang matHang = tim.get();
             if (!matHang.conBanDuoc()) {
                 NhapXuat.loi(matHang.getTen() + " hiện không bán được");
                 continue;
@@ -114,7 +111,7 @@ public class MenuBanHang {
             return;
         }
 
-        xemGioHang(gioHang, khach.get());
+        xemGioHang(gioHang, khach);
         if (!NhapXuat.xacNhan("Xác nhận thanh toán?")) {
             NhapXuat.thongBao("Đã hủy hóa đơn, không thay đổi dữ liệu");
             NhapXuat.tamDung();
@@ -122,7 +119,7 @@ public class MenuBanHang {
         }
 
         try {
-            HoaDon hoaDon = cuaHang.thanhToan(khach.get().getMa(), nhanVien.get().getMa(), gioHang);
+            HoaDon hoaDon = cuaHang.thanhToan(khach.getMa(), nhanVien.getMa(), gioHang);
             NhapXuat.thongBao("Đã thanh toán hóa đơn " + hoaDon.getMa());
             System.out.println();
             System.out.print(HoaDonText.tao(hoaDon));

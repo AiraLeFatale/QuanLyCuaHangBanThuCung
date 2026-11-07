@@ -2,6 +2,7 @@ package entity;
 
 import java.time.LocalDate;
 
+import util.DocGhiFile;
 import util.TrangTri;
 
 
@@ -53,5 +54,11 @@ public class Thuoc extends SanPham {
     public String getDacDiem() {
         return congDung + ", HSD " + TrangTri.ngay(hanSuDung)
                 + (canKeDon ? ", cần kê đơn" : ", không cần kê đơn");
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(congDung) + "|"
+                + (hanSuDung == null ? "" : hanSuDung.toString()) + "|" + canKeDon;
     }
 }

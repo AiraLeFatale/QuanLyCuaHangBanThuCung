@@ -1,7 +1,9 @@
 package entity;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
+import util.DocGhiFile;
 import util.TrangTri;
 
 
@@ -53,5 +55,12 @@ public class ThucAn extends SanPham {
     public String getDacDiem() {
         return "Cho " + loaiThuCung + ", túi " + TrangTri.so(khoiLuongKg) + " kg, HSD "
                 + TrangTri.ngay(hanSuDung);
+    }
+
+    @Override
+    public String toFileString() {
+        return super.toFileString() + DocGhiFile.maHoa(loaiThuCung) + "|"
+                + String.format(Locale.ROOT, "%.2f", khoiLuongKg) + "|"
+                + (hanSuDung == null ? "" : hanSuDung.toString());
     }
 }
