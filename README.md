@@ -31,7 +31,7 @@ Quy tắc nghiệp vụ tiêu biểu:
 
 ## 2. Công nghệ
 
-- **Java 8+** (cú pháp Java 8, đã kiểm thử với JDK 21 và biên dịch thử bằng `javac --release 8`), giao diện **console** (menu + bảng văn bản).
+- **Java 11+** (đã kiểm thử với **JDK 21** trên máy chạy đồ án), giao diện **console** (menu + bảng văn bản).
 - Lưu trữ: tệp văn bản UTF-8, mỗi dòng là một bản ghi, có mã hóa ký tự phân cách; ghi tệp an toàn
   qua tệp tạm rồi đổi tên.
 - Chỉ dùng `ArrayList`, vòng lặp `for`, `Collections.sort`, `switch - case`; không dùng generic tự viết,
@@ -40,7 +40,7 @@ Quy tắc nghiệp vụ tiêu biểu:
 
 ## 3. Cách chạy
 
-Yêu cầu: đã cài JDK 8 trở lên và có lệnh `javac`, `java` trong PATH (khuyến nghị JDK 8–21; mã nguồn chỉ dùng cú pháp Java 8).
+Yêu cầu: đã cài **JDK 11 trở lên** và có lệnh `javac`, `java` trong PATH. Project được chạy và kiểm thử bằng **JDK 21**.
 
 ```bat
 run.bat

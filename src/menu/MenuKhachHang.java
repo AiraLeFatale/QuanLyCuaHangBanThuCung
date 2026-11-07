@@ -182,8 +182,7 @@ public class MenuKhachHang {
 
     private String hoiDienThoai(String hienTai) {
         while (true) {
-            String s = NhapXuat.chuoi("  Số điện thoại",
-                    hienTai == null || hienTai.trim().isEmpty() ? null : hienTai);
+            String s = NhapXuat.chuoi("  Số điện thoại", hienTai == null || hienTai.isBlank() ? null : hienTai);
             try {
                 return Validator.soDienThoai(s, "Số điện thoại", false);
             } catch (AppException ex) {
