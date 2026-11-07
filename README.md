@@ -109,8 +109,8 @@ QuanLyCuaHangBanThuCung/
 ├── run.bat                     # biên dịch + chạy
 ├── README.md
 ├── src/
-│   ├── entity/                 # thực thể (17 lớp): Nguoi, KhachHang, NhanVien, ThuCung, Cho, Meo, Chim,
-│   │                           #   SanPham, ThucAn, Thuoc, PhuKien, DichVu, DichVuTam,
+│   ├── entity/                 # thực thể (19 lớp): Nguoi, KhachHang, NhanVien, ThuCung, Cho, Meo, Chim,
+│   │                           #   SanPham, ThucAn, Thuoc, PhuKien, DoChoi, QuanAo, DichVu, DichVuTam,
 │   │                           #   DichVuCatTia, DichVuTiemPhong, HoaDon, ChiTietHoaDon
 │   │                           #   + 3 enum: GioiTinh, HangKhachHang, TrangThaiThuCung
 │   ├── inter/                  # interface: CoMaKhoa, MatHang
@@ -144,8 +144,8 @@ Main → nạp dữ liệu (data/) → MenuChinh
               MatHang (interface) ──────────────┐
                     ▲            ▲              ▲
              ThuCung (abstract) SanPham (abstract) DichVu (abstract)
-             ▲      ▲      ▲      ▲     ▲     ▲     ▲       ▲        ▲
-           Cho    Meo    Chim  ThucAn Thuoc PhuKien DichVuTam DichVuCatTia DichVuTiemPhong
+             ▲      ▲      ▲      ▲     ▲     ▲     ▲     ▲     ▲       ▲        ▲
+           Cho    Meo    Chim  ThucAn Thuoc PhuKien DoChoi QuanAo DichVuTam DichVuCatTia DichVuTiemPhong
 
              Nguoi (abstract)
              ▲            ▲
@@ -167,16 +167,16 @@ DocGhiFile ── đọc/ghi tệp text trực tiếp (doc, ghi, maHoa, giaiMa)
 
 ### 6.2. Các kỹ thuật OOP được sử dụng
 
-- **17 lớp đối tượng** trong gói `entity`:
+- **19 lớp đối tượng** trong gói `entity`:
   `Nguoi`, `KhachHang`, `NhanVien`, `ThuCung`, `Cho`, `Meo`, `Chim`,
-  `SanPham`, `ThucAn`, `Thuoc`, `PhuKien`, `DichVu`, `DichVuTam`, `DichVuCatTia`,
-  `DichVuTiemPhong`, `HoaDon`, `ChiTietHoaDon` (chưa kể 3 enum và 2 interface).
+  `SanPham`, `ThucAn`, `Thuoc`, `PhuKien`, `DoChoi`, `QuanAo`, `DichVu`, `DichVuTam`,
+  `DichVuCatTia`, `DichVuTiemPhong`, `HoaDon`, `ChiTietHoaDon` (chưa kể 3 enum và 2 interface).
 - **Hàm thiết lập (constructor)**: mọi lớp đều có constructor; lớp con gọi `super(...)`;
   `ChiTietHoaDon` có thêm factory `tuMatHang(MatHang, int)`.
 - **Trừu tượng hóa**: `Nguoi`, `ThuCung`, `SanPham`, `DichVu` là lớp trừu tượng,
   có phương thức trừu tượng (`getLoaiNguoi`, `getLoai`, `getDacDiem`, `getChiPhiChamSoc`...).
 - **Kế thừa**: `Cho`, `Meo`, `Chim` kế thừa `ThuCung`; `KhachHang`, `NhanVien` kế thừa `Nguoi`;
-  `ThucAn`, `Thuoc`, `PhuKien` kế thừa `SanPham`; 3 lớp dịch vụ kế thừa `DichVu`.
+  `ThucAn`, `Thuoc`, `PhuKien`, `DoChoi`, `QuanAo` kế thừa `SanPham`; 3 lớp dịch vụ kế thừa `DichVu`.
 - **Đa hình**: cùng gọi `getLoai()`, `getDacDiem()`, `truKho()`, `hoanKho()` qua tham chiếu
   `MatHang` / `ThuCung`; giỏ hàng và hóa đơn chỉ làm việc với interface `MatHang` nên bán được
   lẫn lộn thú cưng, sản phẩm và dịch vụ.
@@ -210,7 +210,7 @@ DocGhiFile ── đọc/ghi tệp text trực tiếp (doc, ghi, maHoa, giaiMa)
 | Yêu cầu | Đáp ứng |
 | --- | --- |
 | Xem, thêm, sửa, xóa, tìm kiếm | Có đủ ở 5 danh mục (thú cưng, sản phẩm, dịch vụ, khách hàng, nhân viên) + hóa đơn (xem/tạo/sửa/hủy/tìm) |
-| Ít nhất 15 lớp đối tượng | 17 lớp trong gói `entity` |
+| Ít nhất 15 lớp đối tượng | 19 lớp trong gói `entity` (15 concrete + 4 abstract) |
 | Có constructor | Tất cả các lớp |
 | Kế thừa hợp lý | 4 nhánh kế thừa: `Nguoi`, `ThuCung`, `SanPham`, `DichVu` |
 | Đa hình | Gọi phương thức qua `MatHang` / `ThuCung`; giỏ hàng đa loại |
@@ -234,6 +234,8 @@ Chó|TC001|Milu|2025-03-12|6500000|2|CON_BAN|Poodle|Nhỏ|true
 Thức ăn|SP001|Hạt Royal Canin|320000|20|Chó|2.00|2027-05-30
 Thuốc|SP003|Thuốc xổ giun|120000|15|Tẩy giun cho chó mèo|2026-12-31|false
 Phụ kiện|SP005|Dây dắt da|180000|12|Da bò|Nâu
+Đồ chơi|SP007|Bóng cao su|60000|25|Bóng|Nhỏ
+Quần áo|SP008|Áo hoodie mèo|150000|10|M|Cotton
 
 # dichvu.txt
 Tắm & sấy|DV001|Tắm sấy chó nhỏ|150000|45|Nhỏ

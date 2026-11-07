@@ -9,7 +9,7 @@ import util.DocGhiFile;
 
 
 /**
- * Lớp trừu tượng cho sản phẩm bán kèm: thức ăn, thuốc, phụ kiện.
+ * Lớp trừu tượng cho sản phẩm bán kèm: thức ăn, thuốc, phụ kiện, đồ chơi, quần áo.
  * Mỗi lớp con tự mô tả đặc điểm riêng và loại hàng của mình.
  */
 public abstract class SanPham implements MatHang {
@@ -111,7 +111,7 @@ public abstract class SanPham implements MatHang {
                 + Math.round(giaBan) + "|" + soLuong + "|";
     }
 
-    /** Đọc một dòng văn bản thành sản phẩm (Thức ăn, Thuốc hoặc Phụ kiện). */
+    /** Đọc một dòng văn bản thành sản phẩm (Thức ăn, Thuốc, Phụ kiện, Đồ chơi hoặc Quần áo). */
     public static SanPham fromFileString(String dong) {
         String[] p = DocGhiFile.tach(dong);
         if (p.length < 6) {
@@ -136,6 +136,16 @@ public abstract class SanPham implements MatHang {
         if (loai.equals("Phụ kiện")) {
             String mauSac = p.length > 6 ? DocGhiFile.giaiMa(p[6]) : "";
             return new PhuKien(ma, ten, gia, soLuong, DocGhiFile.giaiMa(p[5]), mauSac);
+        }
+        if (loai.equals("Đồ chơi")) {
+            String loaiDoChoi = p.length > 5 ? DocGhiFile.giaiMa(p[5]) : "";
+            String kichThuoc = p.length > 6 ? DocGhiFile.giaiMa(p[6]) : "";
+            return new DoChoi(ma, ten, gia, soLuong, loaiDoChoi, kichThuoc);
+        }
+        if (loai.equals("Quần áo")) {
+            String kichCo = p.length > 5 ? DocGhiFile.giaiMa(p[5]) : "";
+            String chatLieu = p.length > 6 ? DocGhiFile.giaiMa(p[6]) : "";
+            return new QuanAo(ma, ten, gia, soLuong, kichCo, chatLieu);
         }
         throw new IllegalArgumentException("loại sản phẩm không hợp lệ: " + loai);
     }

@@ -7,11 +7,13 @@ import entity.Cho;
 import entity.DichVuCatTia;
 import entity.DichVuTam;
 import entity.DichVuTiemPhong;
+import entity.DoChoi;
 import entity.GioiTinh;
 import entity.KhachHang;
 import entity.Meo;
 import entity.NhanVien;
 import entity.PhuKien;
+import entity.QuanAo;
 import entity.ThucAn;
 import entity.Thuoc;
 import entity.TrangThaiThuCung;
@@ -89,6 +91,10 @@ public final class DuLieuMau {
                 "Da bò", "Nâu"));
         ds.them(new PhuKien("SP006", "Nhà mèo gỗ", 650_000, 5,
                 "Gỗ thông", "Trắng"));
+        ds.them(new DoChoi("SP007", "Bóng cao su", 60_000, 25,
+                "Bóng", "Nhỏ"));
+        ds.them(new QuanAo("SP008", "Áo hoodie mèo", 150_000, 10,
+                "M", "Cotton"));
     }
 
     private static void napDichVu(CuaHang ch) {
